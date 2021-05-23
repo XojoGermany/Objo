@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RBProject version="2021r1.1" FormatVersion="2" MinIDEVersion="20070100">
+<block type="Module" ID="268331007">
+ <ObjName>ObjoTokeniser</ObjName>
+ <ObjContainerID>0</ObjContainerID>
+ <IsClass>1</IsClass>
+ <ItemFlags>1</ItemFlags>
+ <IsInterface>0</IsInterface>
+ <Compatibility></Compatibility>
+ <Method>
+  <ItemName>Tokenise</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Takes a string of Objo source code and returns an array of tokens.</CodeDescription>
+  <PartID>16816127</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function Tokenise(s As String) As ObjoToken()</SourceLine>
+   <SourceLine>/// Takes a string of Objo source code and returns an array of tokens.</SourceLine>
+   <SourceLine>/// </SourceLine>
+   <SourceLine>/// - [s]: The string to tokenise.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Reset the tokeniser.</SourceLine>
+   <SourceLine>Reset</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Standardise line endings and keep a reference to the source code.</SourceLine>
+   <SourceLine>Source = s.ReplaceLineEndings(EndOfLine.UNIX)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Split the string into characters.</SourceLine>
+   <SourceLine>Chars = Source.Split("")</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Lines = Source.Split(EndOfLine.UNIX)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Keep getting tokens until we've consumed all the source code.</SourceLine>
+   <SourceLine>Do</SourceLine>
+   <SourceLine>NextToken</SourceLine>
+   <SourceLine>Loop Until ReachedEOF</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return Tokens</SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>s As String</ItemParams>
+  <ItemResult>ObjoToken()</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>Reset</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Resets the tokeniser, ready to tokenise again.</CodeDescription>
+  <PartID>1792059391</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub Reset()</SourceLine>
+   <SourceLine>/// Resets the tokeniser, ready to tokenise again.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Source = ""</SourceLine>
+   <SourceLine>Chars.ResizeTo(-1)</SourceLine>
+   <SourceLine>Tokens.ResizeTo(-1)</SourceLine>
+   <SourceLine>Current = 0</SourceLine>
+   <SourceLine>TokenStart = 0</SourceLine>
+   <SourceLine>LineNumber = 1</SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>ReachedEOF</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Returns True if we've reached the of the input source (end of file).</CodeDescription>
+  <PartID>966037503</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function ReachedEOF() As Boolean</SourceLine>
+   <SourceLine>/// Returns True if we've reached the of the input source (end of file).</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If Tokens.Count &gt; 0 And Tokens(Tokens.LastRowIndex).Type = TokenTypes.EOF Then</SourceLine>
+   <SourceLine>Return True</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult>Boolean</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>NextToken</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Scans the source code from the current character and adds the next token to the `Tokens` array.</CodeDescription>
+  <PartID>1434681343</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub NextToken()</SourceLine>
+   <SourceLine>/// Scans the source code from the current character and adds the next token to </SourceLine>
+   <SourceLine>/// the `Tokens` array.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Store the current position so we know where in `Chars` this token begins.</SourceLine>
+   <SourceLine>TokenStart = Current</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Skip over meaningless whitespace.</SourceLine>
+   <SourceLine>SkipWhitespace</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Have we reached the end of the source code?</SourceLine>
+   <SourceLine>If AtEnd Then</SourceLine>
+   <SourceLine>AddToken(New ObjoToken(TokenTypes.EOL))</SourceLine>
+   <SourceLine>AddToken(New ObjoToken(TokenTypes.EOF))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Get the character to evaluate.</SourceLine>
+   <SourceLine>Var c As String = Advance</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>SkipWhitespace</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Advances past meaningless whitespace and handles line continuations.</CodeDescription>
+  <PartID>21598207</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub SkipWhitespace()</SourceLine>
+   <SourceLine>/// Advances past meaningless whitespace and handles line continuations.</SourceLine>
+   <SourceLine>///</SourceLine>
+   <SourceLine>/// - Notes:</SourceLine>
+   <SourceLine>/// Also updates `TokenStart` if required.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Do</SourceLine>
+   <SourceLine>Select Case Peek</SourceLine>
+   <SourceLine>Case "" // End of source code.</SourceLine>
+   <SourceLine>Exit</SourceLine>
+   <SourceLine>Case " ", &amp;u0009 // Space or horizontal tab.</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>Case "/"</SourceLine>
+   <SourceLine>If PeekNext = "/" Then ConsumeComment</SourceLine>
+   <SourceLine>Case "'"</SourceLine>
+   <SourceLine>ConsumeComment</SourceLine>
+   <SourceLine>Case EndOfLine.UNIX</SourceLine>
+   <SourceLine>AddToken(New ObjoToken(TokenTypes.EOL))</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>LineNumber = LineNumber + 1</SourceLine>
+   <SourceLine>End Select</SourceLine>
+   <SourceLine>Loop</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Update the start position of the next token.</SourceLine>
+   <SourceLine>TokenStart = Current</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>Peek</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Returns the character at `Chars(Current)` but doesn't consume. Returns "" if we've reach the end.</CodeDescription>
+  <PartID>1814290431</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function Peek() As String</SourceLine>
+   <SourceLine>/// Returns the character at `Chars(Current)` but doesn't consume. Returns "" if </SourceLine>
+   <SourceLine>/// we've reach the end.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return If(Current &lt;= Chars.LastIndex, Chars(Current), "")</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult>String</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>Advance</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Consumes and returns the current characters in the source code.</CodeDescription>
+  <PartID>1563572223</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function Advance() As String</SourceLine>
+   <SourceLine>/// Consumes and returns the current characters in the source code.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Current = Current + 1</SourceLine>
+   <SourceLine>Return Chars(Current - 1)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult>String</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>AddToken</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Adds the passed token to the internal `Tokens` array.</CodeDescription>
+  <PartID>209199103</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub AddToken(token As ObjoToken)</SourceLine>
+   <SourceLine>/// Adds the passed token to the internal `Tokens` array.</SourceLine>
+   <SourceLine>/// </SourceLine>
+   <SourceLine>/// - [token]: The token to add.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>#Pragma Warning "TODO: Handle line continuation"</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// EOL tokens are special.</SourceLine>
+   <SourceLine>If token.Type = TokenTypes.EOL Then</SourceLine>
+   <SourceLine>If Tokens.Count = 0 Then</SourceLine>
+   <SourceLine>// Prevent the first token from being an EOL token.</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>// Disallow contiguous EOL tokens.</SourceLine>
+   <SourceLine>If Tokens(Tokens.LastIndex).Type = TokenTypes.EOL Then</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Add this token.</SourceLine>
+   <SourceLine>Tokens.Add(token)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>token As ObjoToken</ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>AtEnd</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Returns True if we've reached the end of the source code.</CodeDescription>
+  <PartID>1412351999</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function AtEnd() As Boolean</SourceLine>
+   <SourceLine>/// Returns True if we've reached the end of the source code.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return Current &gt;= Chars.Count</SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult>Boolean</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>PeekNext</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Returns the character at `Chars(Current + 1)` but does not consume it. Returns "" if we're at the end.</CodeDescription>
+  <PartID>1082503167</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function PeekNext() As String</SourceLine>
+   <SourceLine>/// Returns the character at `Chars(Current + 1)` but does not consume it.</SourceLine>
+   <SourceLine>/// Returns "" if we're at the end.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If Current + 1 &lt;= Chars.LastIndex Then</SourceLine>
+   <SourceLine>Return Chars(Current + 1)</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Return ""</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult>String</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>ConsumeComment</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Consumes all characters until EOL or EOF.</CodeDescription>
+  <PartID>55121919</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub ConsumeComment()</SourceLine>
+   <SourceLine>/// Consumes all characters until EOL or EOF.</SourceLine>
+   <SourceLine>///</SourceLine>
+   <SourceLine>/// - Notes:</SourceLine>
+   <SourceLine>/// Assumes we are at the beginning of a comment.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Comments go to the end of the line so keep advancing until we reach a </SourceLine>
+   <SourceLine>// newline character or the end of the file.</SourceLine>
+   <SourceLine>Do</SourceLine>
+   <SourceLine>If Peek = EndOfLine.UNIX Then</SourceLine>
+   <SourceLine>AddToken(New ObjoToken(TokenTypes.EOL))</SourceLine>
+   <SourceLine>LineNumber = LineNumber + 1</SourceLine>
+   <SourceLine>Exit</SourceLine>
+   <SourceLine>ElseIf AtEnd Then</SourceLine>
+   <SourceLine>Exit</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>Loop</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Property>
+  <ItemName>Chars()</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Stores the individual characters of the source code string.</CodeDescription>
+  <PartID>782079999</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Chars() As String</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>Chars() As String</ItemDeclaration>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>Source</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>The original source code that was tokenised.</CodeDescription>
+  <PartID>1972408319</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Source As String</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>Source As String</ItemDeclaration>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>Lines()</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>The source code tokenised, split into lines.</CodeDescription>
+  <PartID>1429794815</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Lines() As String</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>Lines() As String</ItemDeclaration>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>Tokens()</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>The tokens created so far during tokenisation.</CodeDescription>
+  <PartID>105846783</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Tokens() As ObjoToken</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>Tokens() As ObjoToken</ItemDeclaration>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>Current</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Stores the index in `Chars` that the tokeniser is inspecting.</CodeDescription>
+  <PartID>1031436287</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Current As Integer = 0</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>Current As Integer = 0</ItemDeclaration>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>TokenStart</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>The index in `Chars` that the current token starts at.</CodeDescription>
+  <PartID>1894477823</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>TokenStart As Integer = 0</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>TokenStart As Integer = 0</ItemDeclaration>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>LineNumber</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>The current line number being inspected.</CodeDescription>
+  <PartID>716707839</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>LineNumber As Integer = 1</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>LineNumber As Integer = 1</ItemDeclaration>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <ViewBehavior>
+  <ViewProperty>
+   <ObjName>Name</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>ID</PropertyGroup>
+   <ItemType>String</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Index</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>ID</PropertyGroup>
+   <PropertyValue>-2147483648</PropertyValue>
+   <ItemType>Integer</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Super</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>ID</PropertyGroup>
+   <ItemType>String</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Left</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Position</PropertyGroup>
+   <PropertyValue>0</PropertyValue>
+   <ItemType>Integer</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>Top</ObjName>
+   <Visible>1</Visible>
+   <PropertyGroup>Position</PropertyGroup>
+   <PropertyValue>0</PropertyValue>
+   <ItemType>Integer</ItemType>
+  </ViewProperty>
+ </ViewBehavior>
+</block>
+</RBProject>
