@@ -15,7 +15,7 @@ Begin Window Window1
    MacProcID       =   0
    MaximumHeight   =   32000
    MaximumWidth    =   32000
-   MenuBar         =   1853341695
+   MenuBar         =   1224892415
    MenuBarVisible  =   True
    MinimumHeight   =   64
    MinimumWidth    =   64

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RBProject version="2021r1.1" FormatVersion="2" MinIDEVersion="20070100">
-<block type="Module" ID="606859263">
+<block type="Module" ID="2086653951">
  <ObjName>ObjoToken</ObjName>
  <ObjContainerID>0</ObjContainerID>
  <IsClass>1</IsClass>
@@ -11,11 +11,22 @@
   <ItemName>Constructor</ItemName>
   <Compatibility></Compatibility>
   <Visible>1</Visible>
-  <PartID>165713919</PartID>
+  <PartID>955435007</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Sub Constructor(type As TokenTypes)</SourceLine>
+   <SourceLine>Sub Constructor(type As TokenTypes, startPos As Integer, lineNumber As Integer, lexeme As String = "")</SourceLine>
+   <SourceLine>/// DESCRIPTION</SourceLine>
+   <SourceLine>/// </SourceLine>
+   <SourceLine>/// - [type]: The token's type.</SourceLine>
+   <SourceLine>/// - [startPos]: 0-based position in the source.</SourceLine>
+   <SourceLine>/// - [lineNumber]: 1-based line number in the source.</SourceLine>
+   <SourceLine>/// - [lexeme]: Optional lexeme.</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>Self.Type = type</SourceLine>
+   <SourceLine>Self.StartPosition = startPos</SourceLine>
+   <SourceLine>Self.LineNumber = lineNumber</SourceLine>
+   <SourceLine>Self.Lexeme = lexeme</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
@@ -23,21 +34,70 @@
   <AliasName></AliasName>
   <ItemFlags>0</ItemFlags>
   <IsShared>0</IsShared>
-  <ItemParams>type As TokenTypes</ItemParams>
+  <ItemParams>type As TokenTypes, startPos As Integer, lineNumber As Integer, lexeme As String = ""</ItemParams>
   <ItemResult></ItemResult>
  </Method>
  <Property>
   <ItemName>Type</ItemName>
   <Compatibility></Compatibility>
   <Visible>1</Visible>
-  <PartID>1095127039</PartID>
+  <CodeDescription>The token's type.</CodeDescription>
+  <PartID>815280127</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Type As TokenTypes</SourceLine>
+   <SourceLine>Type As Integer</SourceLine>
    <SourceLine></SourceLine>
   </ItemSource>
   <TextEncoding>134217984</TextEncoding>
-  <ItemDeclaration>Type As TokenTypes</ItemDeclaration>
+  <ItemDeclaration>Type As Integer</ItemDeclaration>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>Lexeme</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>The actual characters of this token.</CodeDescription>
+  <PartID>938387455</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Lexeme As String</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>Lexeme As String</ItemDeclaration>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>LineNumber</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>The line number (1-based) that this token occurs on.</CodeDescription>
+  <PartID>1305167871</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>LineNumber As Integer = 1</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>LineNumber As Integer = 1</ItemDeclaration>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+ </Property>
+ <Property>
+  <ItemName>StartPosition</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>The 0-based position in the source code that this token occurs at.</CodeDescription>
+  <PartID>1927518207</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>StartPosition As Integer = 0</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>StartPosition As Integer = 0</ItemDeclaration>
   <ItemFlags>0</ItemFlags>
   <IsShared>0</IsShared>
  </Property>
@@ -76,8 +136,26 @@
    <ItemType>Integer</ItemType>
   </ViewProperty>
   <ViewProperty>
+   <ObjName>Lexeme</ObjName>
+   <PropertyGroup>Behavior</PropertyGroup>
+   <ItemType>String</ItemType>
+   <EditorType>MultiLineEditor</EditorType>
+  </ViewProperty>
+  <ViewProperty>
    <ObjName>Type</ObjName>
    <PropertyGroup>Behavior</PropertyGroup>
+   <ItemType>Integer</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>LineNumber</ObjName>
+   <PropertyGroup>Behavior</PropertyGroup>
+   <PropertyValue>1</PropertyValue>
+   <ItemType>Integer</ItemType>
+  </ViewProperty>
+  <ViewProperty>
+   <ObjName>StartPosition</ObjName>
+   <PropertyGroup>Behavior</PropertyGroup>
+   <PropertyValue>0</PropertyValue>
    <ItemType>Integer</ItemType>
   </ViewProperty>
  </ViewBehavior>
