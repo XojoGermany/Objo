@@ -2,7 +2,7 @@
 <RBProject version="2021r1.1" FormatVersion="2" MinIDEVersion="20070100">
 <block type="Module" ID="2086653951">
  <ObjName>ObjoToken</ObjName>
- <ObjContainerID>0</ObjContainerID>
+ <ObjContainerID>968105983</ObjContainerID>
  <IsClass>1</IsClass>
  <ItemFlags>1</ItemFlags>
  <IsInterface>0</IsInterface>
@@ -45,11 +45,11 @@
   <PartID>815280127</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Type As Integer</SourceLine>
+   <SourceLine>Type As Objo.TokenTypes</SourceLine>
    <SourceLine></SourceLine>
   </ItemSource>
   <TextEncoding>134217984</TextEncoding>
-  <ItemDeclaration>Type As Integer</ItemDeclaration>
+  <ItemDeclaration>Type As Objo.TokenTypes</ItemDeclaration>
   <ItemFlags>0</ItemFlags>
   <IsShared>0</IsShared>
  </Property>
@@ -140,11 +140,6 @@
    <PropertyGroup>Behavior</PropertyGroup>
    <ItemType>String</ItemType>
    <EditorType>MultiLineEditor</EditorType>
-  </ViewProperty>
-  <ViewProperty>
-   <ObjName>Type</ObjName>
-   <PropertyGroup>Behavior</PropertyGroup>
-   <ItemType>Integer</ItemType>
   </ViewProperty>
   <ViewProperty>
    <ObjName>LineNumber</ObjName>

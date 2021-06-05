@@ -2,11 +2,80 @@
 <RBProject version="2021r1.1" FormatVersion="2" MinIDEVersion="20070100">
 <block type="Module" ID="962080767">
  <ObjName>Objo</ObjName>
- <ObjContainerID>0</ObjContainerID>
+ <ObjContainerID>968105983</ObjContainerID>
  <IsClass>0</IsClass>
  <ItemFlags>1</ItemFlags>
  <IsInterface>0</IsInterface>
  <Compatibility></Compatibility>
+ <Property>
+  <ItemName>NonAlpha</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Contains non-alphanumeric characters. Key = String, Value = Hex unicode codepoint.</CodeDescription>
+  <PartID>938616831</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Property NonAlpha As Dictionary</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>NonAlpha As Dictionary</ItemDeclaration>
+  <ItemFlags>1</ItemFlags>
+  <IsShared>0</IsShared>
+  <SetAccessor>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Set</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Set</SourceLine>
+  </SetAccessor>
+  <GetAccessor>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Get</SourceLine>
+   <SourceLine>Static dict As New Dictionary( _</SourceLine>
+   <SourceLine>&amp;u0A : &amp;h0A, _</SourceLine>
+   <SourceLine>&amp;u0009 : &amp;h0009, _</SourceLine>
+   <SourceLine>" "    : &amp;h0020, _</SourceLine>
+   <SourceLine>"!"    : &amp;h0021, _</SourceLine>
+   <SourceLine>""""   : &amp;h0022, _</SourceLine>
+   <SourceLine>"#"    : &amp;h0023, _</SourceLine>
+   <SourceLine>"$"    : &amp;h0024, _</SourceLine>
+   <SourceLine>"%"    : &amp;h0025, _</SourceLine>
+   <SourceLine>"&amp;"    : &amp;h0026, _</SourceLine>
+   <SourceLine>"'"    : &amp;h0027, _</SourceLine>
+   <SourceLine>"("    : &amp;h0028, _</SourceLine>
+   <SourceLine>")"    : &amp;h0028, _</SourceLine>
+   <SourceLine>"*"    : &amp;h002A, _</SourceLine>
+   <SourceLine>"+"    : &amp;h002B, _</SourceLine>
+   <SourceLine>","    : &amp;h002C, _</SourceLine>
+   <SourceLine>"-"    : &amp;h002D, _</SourceLine>
+   <SourceLine>"."    : &amp;h002E, _</SourceLine>
+   <SourceLine>"/"    : &amp;h002F, _</SourceLine>
+   <SourceLine>":"    : &amp;h003A, _</SourceLine>
+   <SourceLine>";"    : &amp;h003B, _</SourceLine>
+   <SourceLine>"&lt;"    : &amp;h003C, _</SourceLine>
+   <SourceLine>"="    : &amp;h003D, _</SourceLine>
+   <SourceLine>"&gt;"    : &amp;h003E, _</SourceLine>
+   <SourceLine>"?"    : &amp;h003F, _</SourceLine>
+   <SourceLine>"@"    : &amp;h0040, _</SourceLine>
+   <SourceLine>"["    : &amp;h005B, _</SourceLine>
+   <SourceLine>"\"    : &amp;h005C, _</SourceLine>
+   <SourceLine>"]"    : &amp;h005D, _</SourceLine>
+   <SourceLine>"^"    : &amp;h005E, _</SourceLine>
+   <SourceLine>"_"    : &amp;h005F, _</SourceLine>
+   <SourceLine>"`"    : &amp;h0060, _</SourceLine>
+   <SourceLine>"{"    : &amp;h007B, _</SourceLine>
+   <SourceLine>"|"    : &amp;h007C, _</SourceLine>
+   <SourceLine>"}"    : &amp;h007D, _</SourceLine>
+   <SourceLine>"~"    : &amp;h007E, _</SourceLine>
+   <SourceLine>"±"    : &amp;h00B1, _</SourceLine>
+   <SourceLine>"§"    : &amp;h00A7, _</SourceLine>
+   <SourceLine>"£"    : &amp;h00A3)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return dict</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Get</SourceLine>
+  </GetAccessor>
+ </Property>
  <ViewBehavior>
   <ViewProperty>
    <ObjName>Name</ObjName>
@@ -55,6 +124,11 @@
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>EOF</SourceLine>
    <SourceLine>EOL</SourceLine>
+   <SourceLine>BinaryLiteral</SourceLine>
+   <SourceLine>ColorLiteral</SourceLine>
+   <SourceLine>OctalLiteral</SourceLine>
+   <SourceLine>HexLiteral</SourceLine>
+   <SourceLine>UnicodeLiteral</SourceLine>
   </ItemSource>
  </Enumeration>
 </block>

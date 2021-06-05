@@ -28,5 +28,16 @@ End
 #tag EndWindow
 
 #tag WindowCode
+	#tag Event
+		Sub Open()
+		  Var source As String = "&uFF43"
+		  
+		  Var tokeniser As New ObjoTokeniser
+		  Var tokens() As ObjoToken = tokeniser.Tokenise(source)
+		  Break
+		End Sub
+	#tag EndEvent
+
+
 #tag EndWindowCode
 

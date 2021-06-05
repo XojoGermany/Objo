@@ -2,7 +2,7 @@
 <RBProject version="2021r1.1" FormatVersion="2" MinIDEVersion="20070100">
 <block type="Module" ID="1329240063">
  <ObjName>ObjoTokeniser</ObjName>
- <ObjContainerID>0</ObjContainerID>
+ <ObjContainerID>968105983</ObjContainerID>
  <IsClass>1</IsClass>
  <ItemFlags>1</ItemFlags>
  <IsInterface>0</IsInterface>
@@ -17,8 +17,6 @@
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>Function Tokenise(s As String) As ObjoToken()</SourceLine>
    <SourceLine>/// Takes Objo source code, tokenises it and returns an array of ObjoTokens.</SourceLine>
-   <SourceLine>/// </SourceLine>
-   <SourceLine>/// - [s]: The source code.</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Reset</SourceLine>
    <SourceLine></SourceLine>
@@ -37,7 +35,7 @@
    <SourceLine>// Keep getting tokens until we've consumed all of the source code.</SourceLine>
    <SourceLine>Do</SourceLine>
    <SourceLine>NextToken</SourceLine>
-   <SourceLine>Loop ReachedEOF</SourceLine>
+   <SourceLine>Loop Until ReachedEOF</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Return Tokens</SourceLine>
    <SourceLine></SourceLine>
@@ -64,6 +62,7 @@
    <SourceLine>Source = ""</SourceLine>
    <SourceLine>Chars.ResizeTo(-1)</SourceLine>
    <SourceLine>Lines.ResizeTo(-1)</SourceLine>
+   <SourceLine>Tokens.ResizeTo(-1)</SourceLine>
    <SourceLine>TokenStart = 0</SourceLine>
    <SourceLine>Current = 0</SourceLine>
    <SourceLine>LineNumber = 1</SourceLine>
@@ -87,7 +86,7 @@
    <SourceLine>Function ReachedEOF() As Boolean</SourceLine>
    <SourceLine>/// Returns True if we've reached the end of the source code.</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>If Tokens.Count &gt; 0 And Tokens(Tokens.LastIndex) = TokenTypes.EOF Then</SourceLine>
+   <SourceLine>If Tokens.Count &gt; 0 And Tokens(Tokens.LastIndex).Type = TokenTypes.EOF Then</SourceLine>
    <SourceLine>Return True</SourceLine>
    <SourceLine>Else</SourceLine>
    <SourceLine>Return False</SourceLine>
@@ -106,13 +105,13 @@
   <ItemName>NextToken</ItemName>
   <Compatibility></Compatibility>
   <Visible>1</Visible>
-  <CodeDescription>Scans the source code from the current character and adds the next token to the `Tokens` array</CodeDescription>
+  <CodeDescription>Scans the source code from the current character and adds the next token to the [Tokens] array</CodeDescription>
   <PartID>534507519</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>Sub NextToken()</SourceLine>
    <SourceLine>/// Scans the source code from the current character and adds the next token</SourceLine>
-   <SourceLine>/// to the `Tokens` array</SourceLine>
+   <SourceLine>/// to the [Tokens] array.</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>// Store the current position so we know where in `Chars` this token begins.</SourceLine>
    <SourceLine>TokenStart = Current</SourceLine>
@@ -130,6 +129,38 @@
    <SourceLine>// Get the character to evaluate.</SourceLine>
    <SourceLine>Var c As String = Advance</SourceLine>
    <SourceLine></SourceLine>
+   <SourceLine>// ============================</SourceLine>
+   <SourceLine>// Ampersand-prefixed literals.</SourceLine>
+   <SourceLine>// ============================</SourceLine>
+   <SourceLine>If c = "&amp;" Then</SourceLine>
+   <SourceLine>Select Case Peek</SourceLine>
+   <SourceLine>Case "b"</SourceLine>
+   <SourceLine>// Binary literal (e.g. &amp;b0011).</SourceLine>
+   <SourceLine>If AddBinaryLiteralToken Then Return</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Case "o"</SourceLine>
+   <SourceLine>// Octal literal (e.g. &amp;h123).</SourceLine>
+   <SourceLine>If AddOctalLiteralToken Then Return</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Case "h"</SourceLine>
+   <SourceLine>// Hexadecimal literal (e.g. &amp;hFF).</SourceLine>
+   <SourceLine>If AddHexLiteralToken Then Return</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Case "c"</SourceLine>
+   <SourceLine>// Color literal (e.g. &amp;cFFAADD00).</SourceLine>
+   <SourceLine>If AddColorLiteralToken Then Return</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Case "u"</SourceLine>
+   <SourceLine>// Unicode literal (e.g. &amp;u0009).</SourceLine>
+   <SourceLine>If AddUnicodeLiteralToken Then Return</SourceLine>
+   <SourceLine>End Select</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// ========</SourceLine>
+   <SourceLine>// Numbers.</SourceLine>
+   <SourceLine>// ========</SourceLine>
+   <SourceLine>#Pragma Warning "TODO"</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
   <TextEncoding>134217984</TextEncoding>
@@ -143,15 +174,14 @@
   <ItemName>SkipWhitespace</ItemName>
   <Compatibility></Compatibility>
   <Visible>1</Visible>
-  <CodeDescription>Advance past meaningless whitespace.</CodeDescription>
+  <CodeDescription>Advances past meaningless whitespace.</CodeDescription>
   <PartID>1587967999</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>Sub SkipWhitespace()</SourceLine>
-   <SourceLine>/// Advance past meaningless whitespace.</SourceLine>
+   <SourceLine>/// Advances past meaningless whitespace.</SourceLine>
    <SourceLine>///</SourceLine>
-   <SourceLine>/// - Notes:</SourceLine>
-   <SourceLine>/// Also updates `TokenStart` if needed.</SourceLine>
+   <SourceLine>/// Also updates [TokenStart] if needed.</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Do</SourceLine>
    <SourceLine>Select Case Peek</SourceLine>
@@ -180,6 +210,10 @@
    <SourceLine></SourceLine>
    <SourceLine>End Select</SourceLine>
    <SourceLine>Loop</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Update the start position of the next token.</SourceLine>
+   <SourceLine>TokenStart = Current</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
   <TextEncoding>134217984</TextEncoding>
@@ -193,13 +227,13 @@
   <ItemName>Peek</ItemName>
   <Compatibility></Compatibility>
   <Visible>1</Visible>
-  <CodeDescription>Returns the character at `Chars(Current)` but doesn't consume it. If we've the end it returns "".</CodeDescription>
+  <CodeDescription>Returns the current character but doesn't consume it. If we've the end it returns "".</CodeDescription>
   <PartID>866492415</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>Function Peek() As String</SourceLine>
-   <SourceLine>/// Returns the character at `Chars(Current)` but doesn't consume it.</SourceLine>
-   <SourceLine>/// If we've the end it returns "".</SourceLine>
+   <SourceLine>/// Returns the current character but doesn't consume it.</SourceLine>
+   <SourceLine>/// If we've reached the end it returns "".</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Return If(Current &lt;= Chars.LastIndex, Chars(Current), "")</SourceLine>
    <SourceLine></SourceLine>
@@ -246,7 +280,6 @@
    <SourceLine>Sub ConsumeComment()</SourceLine>
    <SourceLine>/// Consumes all characters until EOL or EOF.</SourceLine>
    <SourceLine>///</SourceLine>
-   <SourceLine>/// - Notes:</SourceLine>
    <SourceLine>/// Assumes we are at the beginning of a comment.</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>// Comments go to the end of the line so keep advancing</SourceLine>
@@ -279,14 +312,23 @@
   <ItemName>MakeToken</ItemName>
   <Compatibility></Compatibility>
   <Visible>1</Visible>
+  <CodeDescription>Returns a new token of the specified type with an optional lexeme.</CodeDescription>
   <PartID>297814015</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Function MakeToken(type As TokenTypes, lexeme As String = "") As ObjoToken</SourceLine>
-   <SourceLine>/// Returns a new token of the specified type with the optional lexeme.</SourceLine>
-   <SourceLine>/// </SourceLine>
-   <SourceLine>/// - [type]: The token's type</SourceLine>
-   <SourceLine>/// - [lexeme]: Optional token lexeme.</SourceLine>
+   <SourceLine>Function MakeToken(type As TokenTypes) As ObjoToken</SourceLine>
+   <SourceLine>/// Returns a new token of the specified type.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Var lexeme As String</SourceLine>
+   <SourceLine>Select Case type</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.BinaryLiteral, Objo.TokenTypes.ColorLiteral, _</SourceLine>
+   <SourceLine>Objo.TokenTypes.OctalLiteral, Objo.TokenTypes.HexLiteral, _</SourceLine>
+   <SourceLine>Objo.TokenTypes.UnicodeLiteral</SourceLine>
+   <SourceLine>// The +2 omits the "&amp;" and single character prefix from the lexeme.</SourceLine>
+   <SourceLine>lexeme = Source.Middle(TokenStart + 2, Current - TokenStart - 1)</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>// We don't need a lexeme.</SourceLine>
+   <SourceLine>End Select</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Return New ObjoToken(type, TokenStart, LineNumber, lexeme)</SourceLine>
    <SourceLine></SourceLine>
@@ -296,21 +338,19 @@
   <AliasName></AliasName>
   <ItemFlags>33</ItemFlags>
   <IsShared>0</IsShared>
-  <ItemParams>type As TokenTypes, lexeme As String = ""</ItemParams>
+  <ItemParams>type As TokenTypes</ItemParams>
   <ItemResult>ObjoToken</ItemResult>
  </Method>
  <Method>
   <ItemName>AddToken</ItemName>
   <Compatibility></Compatibility>
   <Visible>1</Visible>
-  <CodeDescription>Adds the passed token to our internal `Tokens` array.</CodeDescription>
+  <CodeDescription>Adds the passed token to the internal [Tokens] array.</CodeDescription>
   <PartID>1463877631</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>Sub AddToken(token As ObjoToken)</SourceLine>
-   <SourceLine>/// Adds the passed token to our internal `Tokens` array.</SourceLine>
-   <SourceLine>/// </SourceLine>
-   <SourceLine>/// - [token]: The token to add.</SourceLine>
+   <SourceLine>/// Adds the passed token to the internal [Tokens] array.</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>// Handle EOLs.</SourceLine>
    <SourceLine>If token.Type = TokenTypes.EOL Then</SourceLine>
@@ -363,12 +403,12 @@
   <ItemName>PeekNext</ItemName>
   <Compatibility></Compatibility>
   <Visible>1</Visible>
-  <CodeDescription>Returns the character at `Chars(Current + 1)`but does not consume it. Returns "" if at the end.</CodeDescription>
+  <CodeDescription>Returns the next character but does not consume it. Returns "" if at the end.</CodeDescription>
   <PartID>1599588351</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>Function PeekNext() As String</SourceLine>
-   <SourceLine>/// Returns the character at `Chars(Current + 1)`but does not consume it.</SourceLine>
+   <SourceLine>/// Returns the next character but does not consume it.</SourceLine>
    <SourceLine>/// Returns "" if at the end.</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>If Current + 1 &lt;= Chars.LastIndex Then</SourceLine>
@@ -385,6 +425,414 @@
   <IsShared>0</IsShared>
   <ItemParams></ItemParams>
   <ItemResult>String</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>AddBinaryLiteralToken</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1634871295</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function AddBinaryLiteralToken() As Boolean</SourceLine>
+   <SourceLine>/// Attempts to add a binary literal token and returns True if successful.</SourceLine>
+   <SourceLine>///</SourceLine>
+   <SourceLine>/// We assume that [Current] points to the "&amp;" and that the next character </SourceLine>
+   <SourceLine>/// is **definitely** a "b".</SourceLine>
+   <SourceLine>/// Example:</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine>/// &amp;b0011</SourceLine>
+   <SourceLine>/// ^</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Move past the "b" character.</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// We need to see at least one binary character.</SourceLine>
+   <SourceLine>If Not IsBinaryDigit(Peek) Then</SourceLine>
+   <SourceLine>// Rewind a character (since we advanced past the "b").</SourceLine>
+   <SourceLine>Current = Current - 1</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Consume all contiguous binary digits.</SourceLine>
+   <SourceLine>While IsBinaryDigit(Peek)</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>Wend</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// The next character must be non alphanumeric.</SourceLine>
+   <SourceLine>If IsAlpha(Peek) And Not AtEnd Then</SourceLine>
+   <SourceLine>// Rewind to the character after the token start position.</SourceLine>
+   <SourceLine>Current = TokenStart + 1</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Create this binary literal token.</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.BinaryLiteral))</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return True</SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult>Boolean</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>IsBinaryDigit</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Returns True if [c] is `0` or `1`.</CodeDescription>
+  <PartID>1239797759</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function IsBinaryDigit(c As String) As Boolean</SourceLine>
+   <SourceLine>/// Returns True if [c] is `0` or `1`.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return c = "0" Or c = "1"</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>c As String</ItemParams>
+  <ItemResult>Boolean</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>IsAlpha</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Returns True if [c] is considered alphanumeric.</CodeDescription>
+  <PartID>388605951</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function IsAlpha(c As String) As Boolean</SourceLine>
+   <SourceLine>/// Returns True if [c] is considered alphanumeric.</SourceLine>
+   <SourceLine>///</SourceLine>
+   <SourceLine>/// This is **not** exhaustive because the [Objo.NonAlpha] dictionary</SourceLine>
+   <SourceLine>/// doesn't contain every non-alpha character.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return Not Objo.NonAlpha.HasKey(c)</SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>c As String</ItemParams>
+  <ItemResult>Boolean</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>AddColorLiteralToken</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Attempts to add a color literal token beginning at the current position. Returns True if successful.</CodeDescription>
+  <PartID>1446277119</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function AddColorLiteralToken() As Boolean</SourceLine>
+   <SourceLine>/// Attempts to add a color literal token beginning at the current position. </SourceLine>
+   <SourceLine>/// Returns True if successful.</SourceLine>
+   <SourceLine>///</SourceLine>
+   <SourceLine>/// Assumes that [Current] points to the "&amp;" character illustrated below </SourceLine>
+   <SourceLine>/// **and** that the next character is definitely a "c".</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine>/// &amp;cFFEEDD</SourceLine>
+   <SourceLine>/// ^</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Move past the "c" character.</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// We need to see at least one hex character.</SourceLine>
+   <SourceLine>If Not IsHexDigit(Peek) Then</SourceLine>
+   <SourceLine>// Rewind a character (since we advanced past the "c").</SourceLine>
+   <SourceLine>Current = Current - 1</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Consume all contiguous hex digits.</SourceLine>
+   <SourceLine>While IsHexDigit(Peek)</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>Wend</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Get the lexeme. The +2 accounts for the "&amp;c" prefix.</SourceLine>
+   <SourceLine>Var iMax As Integer = Current - 1</SourceLine>
+   <SourceLine>Var tmp() As String</SourceLine>
+   <SourceLine>For i As Integer = TokenStart + 2 To iMax</SourceLine>
+   <SourceLine>tmp.Add(Chars(i))</SourceLine>
+   <SourceLine>Next i</SourceLine>
+   <SourceLine>Var lexeme As String = String.FromArray(tmp, "")</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Make sure there are at most 8 hex characters in the lexeme (RRGGBBAA).</SourceLine>
+   <SourceLine>If lexeme.Length &gt; 8 Then</SourceLine>
+   <SourceLine>// Rewind to the character after the token start position.</SourceLine>
+   <SourceLine>Current = TokenStart + 1</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// The current character mustn't be alphanumeric or the end of the line or </SourceLine>
+   <SourceLine>// else this can't be a color literal.</SourceLine>
+   <SourceLine>If IsAlpha(Peek) And Not AtEnd Then</SourceLine>
+   <SourceLine>// Rewind to the character after the token start position.</SourceLine>
+   <SourceLine>Current = TokenStart + 1</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Create this color literal token.</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.ColorLiteral))</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Successfully added a color literal token.</SourceLine>
+   <SourceLine>Return True</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult>Boolean</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>IsHexDigit</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>True if [c] is a valid hexadecimal digit (0-9, a-f, A-F).</CodeDescription>
+  <PartID>1774196735</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function IsHexDigit(c As String) As Boolean</SourceLine>
+   <SourceLine>/// True if [c] is a valid hexadecimal digit (0-9, a-f, A-F).</SourceLine>
+   <SourceLine>///</SourceLine>
+   <SourceLine>/// Assumes that [c] is a single character in length.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Select Case c.Asc</SourceLine>
+   <SourceLine>Case 48 To 57 // 0-9</SourceLine>
+   <SourceLine>Return True</SourceLine>
+   <SourceLine>Case 65 To 70 // A-F</SourceLine>
+   <SourceLine>Return True</SourceLine>
+   <SourceLine>Case 97 To 102 // a-f</SourceLine>
+   <SourceLine>Return True</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>End Select</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>c As String</ItemParams>
+  <ItemResult>Boolean</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>AddOctalLiteralToken</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Attempts to add an octal literal token beginning at the current position. Returns True if successful.</CodeDescription>
+  <PartID>862625791</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function AddOctalLiteralToken() As Boolean</SourceLine>
+   <SourceLine>/// Attempts to add an octal literal token beginning at the current position.</SourceLine>
+   <SourceLine>/// Returns True if successful.</SourceLine>
+   <SourceLine>///</SourceLine>
+   <SourceLine>/// Assumes that [Current] points to the "&amp;" character illustrated below **and** </SourceLine>
+   <SourceLine>/// that the next character is definitely an "o":</SourceLine>
+   <SourceLine>/// ``` </SourceLine>
+   <SourceLine>/// &amp;hFFA1</SourceLine>
+   <SourceLine>/// ^</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Move past the "o" character.</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// We need to see at least one octal character.</SourceLine>
+   <SourceLine>If Not IsOctalDigit(Peek) Then</SourceLine>
+   <SourceLine>// Rewind a character (since we advanced past the "o").</SourceLine>
+   <SourceLine>Current = Current - 1</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Consume all contiguous octal digits.</SourceLine>
+   <SourceLine>While IsOctalDigit(Peek)</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>Wend</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// The next character can't alphanumeric or the end of a line.</SourceLine>
+   <SourceLine>If IsAlpha(Peek) And Not AtEnd Then</SourceLine>
+   <SourceLine>// Rewind to the character after the token start position.</SourceLine>
+   <SourceLine>Current = TokenStart + 1</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Create this octal literal token.</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.OctalLiteral))</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Successfully added a octal literal token.</SourceLine>
+   <SourceLine>Return True</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult>Boolean</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>IsOctalDigit</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>True if [c] is a valid octal digit (0-7).</CodeDescription>
+  <PartID>117049343</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function IsOctalDigit(c As String) As Boolean</SourceLine>
+   <SourceLine>/// True if [c] is a valid octal digit (0-7).</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Select Case c.Asc</SourceLine>
+   <SourceLine>Case 48 To 55 // 0-7</SourceLine>
+   <SourceLine>Return True</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>End Select</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>c As String</ItemParams>
+  <ItemResult>Boolean</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>AddHexLiteralToken</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Attempts to add a hexadecimal literal token beginning at the current position. Returns True if successful.</CodeDescription>
+  <PartID>862306303</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function AddHexLiteralToken() As Boolean</SourceLine>
+   <SourceLine>/// Attempts to add a hex literal token beginning at the current position.</SourceLine>
+   <SourceLine>/// Returns True if successful.</SourceLine>
+   <SourceLine>///</SourceLine>
+   <SourceLine>/// Assumes that [Current] points to the "&amp;" character illustrated below **and** </SourceLine>
+   <SourceLine>/// that the next character is definitely a "h":</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine>/// &amp;hFFA1</SourceLine>
+   <SourceLine>/// ^</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Move past the "h" character.</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// We need to see at least one hex character.</SourceLine>
+   <SourceLine>If Not IsHexDigit(Peek) Then</SourceLine>
+   <SourceLine>// Rewind a character (since we advanced past the "h").</SourceLine>
+   <SourceLine>Current = Current - 1</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Consume all contiguous hex digits.</SourceLine>
+   <SourceLine>While IsHexDigit(Peek)</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>Wend</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// The next character can't alphanumeric or the end of a line.</SourceLine>
+   <SourceLine>If IsAlpha(Peek) And Not AtEnd Then</SourceLine>
+   <SourceLine>// Rewind to the character after the token start position.</SourceLine>
+   <SourceLine>Current = TokenStart + 1</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Create this hex literal token.</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.HexLiteral))</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Successfully added a hex literal token.</SourceLine>
+   <SourceLine>Return True</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult>Boolean</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>AddUnicodeLiteralToken</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Attempts to add a unicode literal token beginning at the current position. Returns True if successful.</CodeDescription>
+  <PartID>1187420159</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function AddUnicodeLiteralToken() As Boolean</SourceLine>
+   <SourceLine>/// Attempts to add a unicode literal token beginning at the current position. </SourceLine>
+   <SourceLine>/// Returns True if successful.</SourceLine>
+   <SourceLine>///</SourceLine>
+   <SourceLine>/// Assumes that [Current] points to the "&amp;" character illustrated below **and** </SourceLine>
+   <SourceLine>/// that the next character is definitely a "u":</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine>/// &amp;u0009</SourceLine>
+   <SourceLine>/// ^</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Move past the "u" character.</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// We need to see at least one hex character.</SourceLine>
+   <SourceLine>If Not IsHexDigit(Peek) Then</SourceLine>
+   <SourceLine>// Rewind a character (since we advanced past the "u").</SourceLine>
+   <SourceLine>Current = Current - 1</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Consume all contiguous hex digits.</SourceLine>
+   <SourceLine>While IsHexDigit(Peek)</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>Wend</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// The next character can't be alphanumeric.</SourceLine>
+   <SourceLine>If IsAlpha(Peek) And Not AtEnd Then</SourceLine>
+   <SourceLine>// Rewind to the character after the token start position.</SourceLine>
+   <SourceLine>Current = TokenStart + 1</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Create this unicode literal token.</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.UnicodeLiteral))</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Successfully added a unicode literal token.</SourceLine>
+   <SourceLine>Return True</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult>Boolean</ItemResult>
  </Method>
  <Property>
   <ItemName>Source</ItemName>
@@ -530,12 +978,6 @@
    <Visible>1</Visible>
    <PropertyGroup>Position</PropertyGroup>
    <PropertyValue>0</PropertyValue>
-   <ItemType>Integer</ItemType>
-  </ViewProperty>
-  <ViewProperty>
-   <ObjName>LineNumber</ObjName>
-   <PropertyGroup>Behavior</PropertyGroup>
-   <PropertyValue>1</PropertyValue>
    <ItemType>Integer</ItemType>
   </ViewProperty>
  </ViewBehavior>
