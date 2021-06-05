@@ -15,7 +15,7 @@
   <PartID>938616831</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Property NonAlpha As Dictionary</SourceLine>
+   <SourceLine>NonAlpha As Dictionary</SourceLine>
    <SourceLine></SourceLine>
   </ItemSource>
   <TextEncoding>134217984</TextEncoding>
@@ -129,6 +129,7 @@
    <SourceLine>OctalLiteral</SourceLine>
    <SourceLine>HexLiteral</SourceLine>
    <SourceLine>UnicodeLiteral</SourceLine>
+   <SourceLine>Number</SourceLine>
   </ItemSource>
  </Enumeration>
 </block>

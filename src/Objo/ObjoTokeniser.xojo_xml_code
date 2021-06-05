@@ -156,9 +156,15 @@
    <SourceLine>End Select</SourceLine>
    <SourceLine>End If</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>// ========</SourceLine>
    <SourceLine>// Numbers.</SourceLine>
-   <SourceLine>// ========</SourceLine>
+   <SourceLine>If IsNumeric(c) Then</SourceLine>
+   <SourceLine>AddNumberToken</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// ========================</SourceLine>
+   <SourceLine>// Single character tokens.</SourceLine>
+   <SourceLine>// ========================</SourceLine>
    <SourceLine>#Pragma Warning "TODO"</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
@@ -318,14 +324,21 @@
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>Function MakeToken(type As TokenTypes) As ObjoToken</SourceLine>
    <SourceLine>/// Returns a new token of the specified type.</SourceLine>
+   <SourceLine>///</SourceLine>
+   <SourceLine>/// Some tokens store the lexeme. How the lexeme is computed varies </SourceLine>
+   <SourceLine>/// depending on the token's type.</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Var lexeme As String</SourceLine>
    <SourceLine>Select Case type</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Number</SourceLine>
+   <SourceLine>lexeme = Source.Middle(TokenStart, Current - TokenStart)</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>Case Objo.TokenTypes.BinaryLiteral, Objo.TokenTypes.ColorLiteral, _</SourceLine>
    <SourceLine>Objo.TokenTypes.OctalLiteral, Objo.TokenTypes.HexLiteral, _</SourceLine>
    <SourceLine>Objo.TokenTypes.UnicodeLiteral</SourceLine>
    <SourceLine>// The +2 omits the "&amp;" and single character prefix from the lexeme.</SourceLine>
    <SourceLine>lexeme = Source.Middle(TokenStart + 2, Current - TokenStart - 1)</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>Else</SourceLine>
    <SourceLine>// We don't need a lexeme.</SourceLine>
    <SourceLine>End Select</SourceLine>
@@ -832,6 +845,90 @@
   <ItemFlags>33</ItemFlags>
   <IsShared>0</IsShared>
   <ItemParams></ItemParams>
+  <ItemResult>Boolean</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>AddNumberToken</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Consumes and adds a number token starting at [Current].</CodeDescription>
+  <PartID>611403775</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub AddNumberToken()</SourceLine>
+   <SourceLine>/// Consumes and adds a number token starting at [Current].</SourceLine>
+   <SourceLine>///</SourceLine>
+   <SourceLine>/// Assumes that [Current] points at a digit.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>While IsDigit(Peek)</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>Wend</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Is this a double?</SourceLine>
+   <SourceLine>If Peek = "." And IsDigit(PeekNext) Then</SourceLine>
+   <SourceLine>Call Advance // Consume the dot.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>While IsDigit(Peek)</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>Wend</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Is there an exponent?</SourceLine>
+   <SourceLine>If Peek = "e" Then</SourceLine>
+   <SourceLine>Var nextChar As String = PeekNext</SourceLine>
+   <SourceLine>If nextChar = "-" Or nextChar = "+" Then</SourceLine>
+   <SourceLine>// Advance twice to consume the e/E and sign character.</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>While IsDigit(Peek)</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>Wend</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>ElseIf IsDigit(nextChar) Then</SourceLine>
+   <SourceLine>Call Advance // Consume the e/E character.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>While IsDigit(Peek)</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>Wend</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Number))</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>IsDigit</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Returns True if [character] is a digit in the range 0-9.</CodeDescription>
+  <PartID>1870362623</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function IsDigit(character As String) As Boolean</SourceLine>
+   <SourceLine>/// Returns True if [character] is a digit in the range 0-9.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Select Case character.Asc</SourceLine>
+   <SourceLine>Case 48 To 57</SourceLine>
+   <SourceLine>Return True</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>End Select</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>character As String</ItemParams>
   <ItemResult>Boolean</ItemResult>
  </Method>
  <Property>
