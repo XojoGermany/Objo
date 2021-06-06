@@ -165,7 +165,123 @@
    <SourceLine>// ========================</SourceLine>
    <SourceLine>// Single character tokens.</SourceLine>
    <SourceLine>// ========================</SourceLine>
-   <SourceLine>#Pragma Warning "TODO"</SourceLine>
+   <SourceLine>Select Case c</SourceLine>
+   <SourceLine>Case "="</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Equals))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Case ","</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Comma))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Case "."</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Dot))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Case ":"</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Colon))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Case "("</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.LParen))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Case ")"</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.RParen))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Case "["</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.LSquare))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Case "]"</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.RSquare))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Case "{"</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.LCurly))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Case "}"</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.RCurly))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Case "_"</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Underscore))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Case "|"</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Pipe))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Case "^"</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Caret))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Case "&amp;"</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Ampersand))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End Select</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// =================================================================</SourceLine>
+   <SourceLine>// Single OR multiple character tokens.</SourceLine>
+   <SourceLine>// `c` is a character that can occur on its own or can occur in </SourceLine>
+   <SourceLine>// combination with one or more characters.</SourceLine>
+   <SourceLine>// =================================================================</SourceLine>
+   <SourceLine>Select Case c</SourceLine>
+   <SourceLine>Case "-"</SourceLine>
+   <SourceLine>If Match("=") Then // -=</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.MinusEqual))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Else // -</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Minus))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>Case "+"</SourceLine>
+   <SourceLine>If Match("=") Then // +=</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.PlusEqual))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Else // +</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Plus))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>Case "/"</SourceLine>
+   <SourceLine>If Match("=") Then ' /=</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.ForwardSlashEqual))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Else ' /</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.ForwardSlash))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>Case "*"</SourceLine>
+   <SourceLine>If Match("=") Then // *=</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.StarEqual))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Else // *</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Star))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>Case "&lt;"</SourceLine>
+   <SourceLine>If Match("&gt;") Then // &lt;&gt;</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.NotEqual))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>ElseIf Match("=") Then // &lt;=</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.LessEqual))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>ElseIf Match("&lt;") Then // &lt;&lt;</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.LessLess))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Less))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>Case "&gt;"</SourceLine>
+   <SourceLine>If Match("=") Then // &gt;=</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.GreaterEqual))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>ElseIf Match("&gt;") Then // &gt;&gt;</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.GreaterGreater))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Greater))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>Case "?"</SourceLine>
+   <SourceLine>If Match("?") Then</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.QueryQuery))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Query))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>End Select</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
@@ -315,46 +431,6 @@
   <ItemResult></ItemResult>
  </Method>
  <Method>
-  <ItemName>MakeToken</ItemName>
-  <Compatibility></Compatibility>
-  <Visible>1</Visible>
-  <CodeDescription>Returns a new token of the specified type with an optional lexeme.</CodeDescription>
-  <PartID>297814015</PartID>
-  <ItemSource>
-   <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Function MakeToken(type As TokenTypes) As ObjoToken</SourceLine>
-   <SourceLine>/// Returns a new token of the specified type.</SourceLine>
-   <SourceLine>///</SourceLine>
-   <SourceLine>/// Some tokens store the lexeme. How the lexeme is computed varies </SourceLine>
-   <SourceLine>/// depending on the token's type.</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>Var lexeme As String</SourceLine>
-   <SourceLine>Select Case type</SourceLine>
-   <SourceLine>Case Objo.TokenTypes.Number</SourceLine>
-   <SourceLine>lexeme = Source.Middle(TokenStart, Current - TokenStart)</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>Case Objo.TokenTypes.BinaryLiteral, Objo.TokenTypes.ColorLiteral, _</SourceLine>
-   <SourceLine>Objo.TokenTypes.OctalLiteral, Objo.TokenTypes.HexLiteral, _</SourceLine>
-   <SourceLine>Objo.TokenTypes.UnicodeLiteral</SourceLine>
-   <SourceLine>// The +2 omits the "&amp;" and single character prefix from the lexeme.</SourceLine>
-   <SourceLine>lexeme = Source.Middle(TokenStart + 2, Current - TokenStart - 1)</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>Else</SourceLine>
-   <SourceLine>// We don't need a lexeme.</SourceLine>
-   <SourceLine>End Select</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>Return New ObjoToken(type, TokenStart, LineNumber, lexeme)</SourceLine>
-   <SourceLine></SourceLine>
-   <SourceLine>End Function</SourceLine>
-  </ItemSource>
-  <TextEncoding>134217984</TextEncoding>
-  <AliasName></AliasName>
-  <ItemFlags>33</ItemFlags>
-  <IsShared>0</IsShared>
-  <ItemParams>type As TokenTypes</ItemParams>
-  <ItemResult>ObjoToken</ItemResult>
- </Method>
- <Method>
   <ItemName>AddToken</ItemName>
   <Compatibility></Compatibility>
   <Visible>1</Visible>
@@ -481,8 +557,13 @@
    <SourceLine>Return False</SourceLine>
    <SourceLine>End If</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>// Create this binary literal token.</SourceLine>
-   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.BinaryLiteral))</SourceLine>
+   <SourceLine>// Compute the lexeme. +2 accounts for the "&amp;b" prefix.</SourceLine>
+   <SourceLine>Var lexeme As String = _</SourceLine>
+   <SourceLine>Source.Middle(TokenStart + 2, Current - TokenStart - 1)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Create and add this token.</SourceLine>
+   <SourceLine>Tokens.Add(New ObjoToken(Objo.TokenTypes.BinaryLiteral, TokenStart, _</SourceLine>
+   <SourceLine>LineNumber, lexeme))</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Return True</SourceLine>
    <SourceLine>End Function</SourceLine>
@@ -599,10 +680,10 @@
    <SourceLine>Return False</SourceLine>
    <SourceLine>End If</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>// Create this color literal token.</SourceLine>
-   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.ColorLiteral))</SourceLine>
+   <SourceLine>// Create and add this token.</SourceLine>
+   <SourceLine>Tokens.Add(New ObjoToken(Objo.TokenTypes.ColorLiteral, TokenStart, _</SourceLine>
+   <SourceLine>LineNumber, lexeme))</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>// Successfully added a color literal token.</SourceLine>
    <SourceLine>Return True</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Function</SourceLine>
@@ -689,10 +770,14 @@
    <SourceLine>Return False</SourceLine>
    <SourceLine>End If</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>// Create this octal literal token.</SourceLine>
-   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.OctalLiteral))</SourceLine>
+   <SourceLine>// Compute the lexeme. +2 accounts for the "&amp;o" prefix.</SourceLine>
+   <SourceLine>Var lexeme As String = _</SourceLine>
+   <SourceLine>Source.Middle(TokenStart + 2, Current - TokenStart - 1)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>// Successfully added a octal literal token.</SourceLine>
+   <SourceLine>// Create and add this token.</SourceLine>
+   <SourceLine>Tokens.Add(New ObjoToken(Objo.TokenTypes.OctalLiteral, TokenStart, _</SourceLine>
+   <SourceLine>LineNumber, lexeme))</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>Return True</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Function</SourceLine>
@@ -774,10 +859,14 @@
    <SourceLine>Return False</SourceLine>
    <SourceLine>End If</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>// Create this hex literal token.</SourceLine>
-   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.HexLiteral))</SourceLine>
+   <SourceLine>// Compute the lexeme. +2 accounts for the "&amp;h" prefix.</SourceLine>
+   <SourceLine>Var lexeme As String = _</SourceLine>
+   <SourceLine>Source.Middle(TokenStart + 2, Current - TokenStart - 1)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>// Successfully added a hex literal token.</SourceLine>
+   <SourceLine>// Create and add this token.</SourceLine>
+   <SourceLine>Tokens.Add(New ObjoToken(Objo.TokenTypes.HexLiteral, TokenStart, _</SourceLine>
+   <SourceLine>LineNumber, lexeme))</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>Return True</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Function</SourceLine>
@@ -832,10 +921,14 @@
    <SourceLine>Return False</SourceLine>
    <SourceLine>End If</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>// Create this unicode literal token.</SourceLine>
-   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.UnicodeLiteral))</SourceLine>
+   <SourceLine>// Compute the lexeme. +2 accounts for the "&amp;u" prefix.</SourceLine>
+   <SourceLine>Var lexeme As String = _</SourceLine>
+   <SourceLine>Source.Middle(TokenStart + 2, Current - TokenStart - 1)</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>// Successfully added a unicode literal token.</SourceLine>
+   <SourceLine>// Create and add this token.</SourceLine>
+   <SourceLine>Tokens.Add(New ObjoToken(Objo.TokenTypes.UnicodeLiteral, TokenStart, _</SourceLine>
+   <SourceLine>LineNumber, lexeme))</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>Return True</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Function</SourceLine>
@@ -893,7 +986,9 @@
    <SourceLine>End If</SourceLine>
    <SourceLine>End If</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Number))</SourceLine>
+   <SourceLine>// Add this token.</SourceLine>
+   <SourceLine>Tokens.Add(New ObjoToken(Objo.TokenTypes.Number, TokenStart, LineNumber, _</SourceLine>
+   <SourceLine>Source.Middle(TokenStart, Current - TokenStart)))</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
@@ -929,6 +1024,57 @@
   <ItemFlags>33</ItemFlags>
   <IsShared>0</IsShared>
   <ItemParams>character As String</ItemParams>
+  <ItemResult>Boolean</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>MakeToken</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Returns a new token of the specified type. Used for tokens without lexemes.</CodeDescription>
+  <PartID>593788927</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function MakeToken(type As TokenTypes) As ObjoToken</SourceLine>
+   <SourceLine>/// Returns a new token of the specified type. </SourceLine>
+   <SourceLine>/// Used for tokens without lexemes.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return New ObjoToken(type, TokenStart, LineNumber)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>type As TokenTypes</ItemParams>
+  <ItemResult>ObjoToken</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>Match</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>If the next character matches [c] then it's consumed and True is returned. Otherwise the character is left alone and False is returned.</CodeDescription>
+  <PartID>1022644223</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function Match(c As String) As Boolean</SourceLine>
+   <SourceLine>/// If the next character matches [c] then it's consumed and True is </SourceLine>
+   <SourceLine>/// returned. Otherwise the character is left alone and False is returned.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>If Peek = c Then</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>Return True</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Return False</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>c As String</ItemParams>
   <ItemResult>Boolean</ItemResult>
  </Method>
  <Property>

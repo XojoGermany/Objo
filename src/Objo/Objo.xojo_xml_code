@@ -130,6 +130,37 @@
    <SourceLine>HexLiteral</SourceLine>
    <SourceLine>UnicodeLiteral</SourceLine>
    <SourceLine>Number</SourceLine>
+   <SourceLine>Minus</SourceLine>
+   <SourceLine>Plus</SourceLine>
+   <SourceLine>ForwardSlash</SourceLine>
+   <SourceLine>Star</SourceLine>
+   <SourceLine>LParen</SourceLine>
+   <SourceLine>RParen</SourceLine>
+   <SourceLine>LSquare</SourceLine>
+   <SourceLine>RSquare</SourceLine>
+   <SourceLine>LCurly</SourceLine>
+   <SourceLine>RCurly</SourceLine>
+   <SourceLine>Pipe</SourceLine>
+   <SourceLine>Caret</SourceLine>
+   <SourceLine>Ampersand</SourceLine>
+   <SourceLine>Dot</SourceLine>
+   <SourceLine>Comma</SourceLine>
+   <SourceLine>Colon</SourceLine>
+   <SourceLine>Underscore</SourceLine>
+   <SourceLine>Equals</SourceLine>
+   <SourceLine>NotEqual</SourceLine>
+   <SourceLine>LessEqual</SourceLine>
+   <SourceLine>GreaterEqual</SourceLine>
+   <SourceLine>Less</SourceLine>
+   <SourceLine>Greater</SourceLine>
+   <SourceLine>Query</SourceLine>
+   <SourceLine>QueryQuery</SourceLine>
+   <SourceLine>MinusEqual</SourceLine>
+   <SourceLine>PlusEqual</SourceLine>
+   <SourceLine>ForwardSlashEqual</SourceLine>
+   <SourceLine>StarEqual</SourceLine>
+   <SourceLine>LessLess</SourceLine>
+   <SourceLine>GreaterGreater</SourceLine>
   </ItemSource>
  </Enumeration>
 </block>
