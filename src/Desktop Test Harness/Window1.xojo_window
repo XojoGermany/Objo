@@ -30,7 +30,7 @@ End
 #tag WindowCode
 	#tag Event
 		Sub Open()
-		  Var source As String = "&uFF43 -4 12.45e10 3"
+		  Var source As String = "&uFF43 -4 var 12.45e10 3"
 		  
 		  Var tokeniser As New ObjoTokeniser
 		  

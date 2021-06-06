@@ -110,10 +110,11 @@
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
    <SourceLine>Sub NextToken()</SourceLine>
-   <SourceLine>/// Scans the source code from the current character and adds the next token</SourceLine>
-   <SourceLine>/// to the [Tokens] array.</SourceLine>
+   <SourceLine>/// Scans the source code from the current character and adds the next </SourceLine>
+   <SourceLine>/// token to the [Tokens] array.</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>// Store the current position so we know where in `Chars` this token begins.</SourceLine>
+   <SourceLine>// Store the current position so we know where in `Chars` this </SourceLine>
+   <SourceLine>// token begins.</SourceLine>
    <SourceLine>TokenStart = Current</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>// Skip over meaningless whitespace.</SourceLine>
@@ -129,9 +130,9 @@
    <SourceLine>// Get the character to evaluate.</SourceLine>
    <SourceLine>Var c As String = Advance</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>// ============================</SourceLine>
+   <SourceLine>// ====================================================================</SourceLine>
    <SourceLine>// Ampersand-prefixed literals.</SourceLine>
-   <SourceLine>// ============================</SourceLine>
+   <SourceLine>// ====================================================================</SourceLine>
    <SourceLine>If c = "&amp;" Then</SourceLine>
    <SourceLine>Select Case Peek</SourceLine>
    <SourceLine>Case "b"</SourceLine>
@@ -210,11 +211,11 @@
    <SourceLine>Return</SourceLine>
    <SourceLine>End Select</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>// =================================================================</SourceLine>
+   <SourceLine>// ====================================================================</SourceLine>
    <SourceLine>// Single OR multiple character tokens.</SourceLine>
    <SourceLine>// `c` is a character that can occur on its own or can occur in </SourceLine>
    <SourceLine>// combination with one or more characters.</SourceLine>
-   <SourceLine>// =================================================================</SourceLine>
+   <SourceLine>// ====================================================================</SourceLine>
    <SourceLine>Select Case c</SourceLine>
    <SourceLine>Case "-"</SourceLine>
    <SourceLine>If Match("=") Then // -=</SourceLine>
@@ -282,6 +283,16 @@
    <SourceLine>Return</SourceLine>
    <SourceLine>End If</SourceLine>
    <SourceLine>End Select</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// ====================================================================</SourceLine>
+   <SourceLine>// Strings.</SourceLine>
+   <SourceLine>// ====================================================================</SourceLine>
+   <SourceLine>#Pragma Warning "TODO"</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// ====================================================================</SourceLine>
+   <SourceLine>// Danger zone.</SourceLine>
+   <SourceLine>// ====================================================================</SourceLine>
+   <SourceLine>Error("Unexpected character `" + c + "`.")</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>
@@ -1076,6 +1087,59 @@
   <IsShared>0</IsShared>
   <ItemParams>c As String</ItemParams>
   <ItemResult>Boolean</ItemResult>
+ </Method>
+ <Method>
+  <ItemName>Error</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Raises an [ObjoTokeniserException] at the current position.</CodeDescription>
+  <PartID>800813055</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub Error(message As String)</SourceLine>
+   <SourceLine>/// Raises an [ObjoTokeniserException] at the current position.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Var e As New ObjoTokeniserException(message)</SourceLine>
+   <SourceLine>e.LineNumber = LineNumber</SourceLine>
+   <SourceLine>// -1 as the tokeniser has already moved past the offending character.</SourceLine>
+   <SourceLine>e.AbsoluteStartPosition = Current - 1</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// We know the 0-based index of the current character in the source code </SourceLine>
+   <SourceLine>// but we need to translate that to the 0-based index within the </SourceLine>
+   <SourceLine>// current line. We'll loop over the array of all characters in the </SourceLine>
+   <SourceLine>// source code, counting the newlines until we get to the first </SourceLine>
+   <SourceLine>// character of the line we're currently on. We can then compute the </SourceLine>
+   <SourceLine>// index of the offending character by subtracting the position of the </SourceLine>
+   <SourceLine>// start of this line from the current character position. This is a </SourceLine>
+   <SourceLine>// bit convoluted but it'll only happen when there's an unrecoverable </SourceLine>
+   <SourceLine>// tokeniser error so we don't need to care about performance that much.</SourceLine>
+   <SourceLine>Var newLineCount As Integer = 1</SourceLine>
+   <SourceLine>Var lineStartCharIndex As Integer = 0</SourceLine>
+   <SourceLine>For i As Integer = 0 To Chars.LastIndex</SourceLine>
+   <SourceLine>If newLineCount = LineNumber Then</SourceLine>
+   <SourceLine>lineStartCharIndex = i</SourceLine>
+   <SourceLine>Exit</SourceLine>
+   <SourceLine>ElseIf Chars(i) = EndOfLine.UNIX Then</SourceLine>
+   <SourceLine>newLineCount = newLineCount + 1</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>Next i</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// `lineStartCharIndex` now holds the 0-based position in the source </SourceLine>
+   <SourceLine>// code of the first character of the line that the error has occurred on.</SourceLine>
+   <SourceLine>// Compute the relative position of the character causing the </SourceLine>
+   <SourceLine>// error on the line.</SourceLine>
+   <SourceLine>e.LineCharacterPosition = e.AbsoluteStartPosition - lineStartCharIndex</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Raise e</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>message As String</ItemParams>
+  <ItemResult></ItemResult>
  </Method>
  <Property>
   <ItemName>Source</ItemName>
