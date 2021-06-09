@@ -30,7 +30,9 @@ End
 #tag WindowCode
 	#tag Event
 		Sub Open()
-		  Var source As String = "&uFF43 -4 var 12.45e10 3"
+		  Const quote = """"
+		  Var source As String = quote + "Hello " + quote + quote + " world" + quote + "100" + _
+		  quote + quote
 		  
 		  Var tokeniser As New ObjoTokeniser
 		  

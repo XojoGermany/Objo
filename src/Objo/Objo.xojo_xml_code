@@ -161,6 +161,7 @@
    <SourceLine>StarEqual</SourceLine>
    <SourceLine>LessLess</SourceLine>
    <SourceLine>GreaterGreater</SourceLine>
+   <SourceLine>StringLiteral</SourceLine>
   </ItemSource>
  </Enumeration>
 </block>

@@ -287,7 +287,14 @@
    <SourceLine>// ====================================================================</SourceLine>
    <SourceLine>// Strings.</SourceLine>
    <SourceLine>// ====================================================================</SourceLine>
+   <SourceLine>If c = """" Then</SourceLine>
+   <SourceLine>// Raw string literal.</SourceLine>
+   <SourceLine>AddRawStringLiteralToken</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>ElseIf c = "'" Then</SourceLine>
+   <SourceLine>// Escaped string literal.</SourceLine>
    <SourceLine>#Pragma Warning "TODO"</SourceLine>
+   <SourceLine>End If</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>// ====================================================================</SourceLine>
    <SourceLine>// Danger zone.</SourceLine>
@@ -1139,6 +1146,84 @@
   <ItemFlags>33</ItemFlags>
   <IsShared>0</IsShared>
   <ItemParams>message As String</ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>AddRawStringLiteralToken</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Attempts to add a raw string literal token.</CodeDescription>
+  <PartID>420435967</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub AddRawStringLiteralToken()</SourceLine>
+   <SourceLine>/// Attempts to add a raw string literal token.</SourceLine>
+   <SourceLine>///</SourceLine>
+   <SourceLine>/// Raw string literals begin and end with a double quote ("). </SourceLine>
+   <SourceLine>/// They may contain &gt;= 0 escaped double quotes ("").</SourceLine>
+   <SourceLine>/// This method assumes that the current character being evaluated is </SourceLine>
+   <SourceLine>/// immediately after the opening double quote:</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine>/// "Hello"</SourceLine>
+   <SourceLine>///  ^</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Const QUOTE = """"</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Cache the starting line number (in case this is a multiline string).</SourceLine>
+   <SourceLine>Var originalLineNumber As Integer = LineNumber</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Keep consuming characters until we hit a `"`.</SourceLine>
+   <SourceLine>Var terminated As Boolean = False</SourceLine>
+   <SourceLine>Var containsEscapedQuotes As Boolean = False</SourceLine>
+   <SourceLine>Var c As String</SourceLine>
+   <SourceLine>While Not AtEnd</SourceLine>
+   <SourceLine>c = Advance</SourceLine>
+   <SourceLine>If c = QUOTE Then</SourceLine>
+   <SourceLine>// If the next character is a `"` then this is an escaped quote.</SourceLine>
+   <SourceLine>If Match(QUOTE) Then</SourceLine>
+   <SourceLine>containsEscapedQuotes = True</SourceLine>
+   <SourceLine>Continue</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>terminated = True</SourceLine>
+   <SourceLine>Exit</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>ElseIf c = EndOfLine.UNIX Then</SourceLine>
+   <SourceLine>// A multiline string literal.</SourceLine>
+   <SourceLine>LineNumber = LineNumber + 1</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>Wend</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Make sure the literal was terminated.</SourceLine>
+   <SourceLine>If Not terminated Then</SourceLine>
+   <SourceLine>Error("Unterminated string literal. Expected a closing double quote.")</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Quick check for an empty string.</SourceLine>
+   <SourceLine>If Current = TokenStart + 1 Then</SourceLine>
+   <SourceLine>Tokens.Add(New ObjoToken(Objo.TokenTypes.StringLiteral, TokenStart, originalLineNumber))</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Compute the lexeme (everything between the opening and closing `"`).</SourceLine>
+   <SourceLine>// +1 accounts for the opening `"` and -2 accounts for the closing `"`.</SourceLine>
+   <SourceLine>Var lexeme As String = Source.Middle(TokenStart + 1, Current - TokenStart - 2)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// If there are any `""`, convert them to `"`.</SourceLine>
+   <SourceLine>If containsEscapedQuotes Then</SourceLine>
+   <SourceLine>lexeme = lexeme.ReplaceAll(QUOTE + QUOTE, QUOTE)</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Tokens.Add(New ObjoToken(Objo.TokenTypes.StringLiteral, _</SourceLine>
+   <SourceLine>TokenStart, originalLineNumber, lexeme))</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
   <ItemResult></ItemResult>
  </Method>
  <Property>
