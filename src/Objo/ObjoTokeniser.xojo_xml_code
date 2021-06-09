@@ -1168,8 +1168,6 @@
    <SourceLine>///  ^</SourceLine>
    <SourceLine>/// ```</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Const QUOTE = """"</SourceLine>
-   <SourceLine></SourceLine>
    <SourceLine>// Cache the starting line number (in case this is a multiline string).</SourceLine>
    <SourceLine>Var originalLineNumber As Integer = LineNumber</SourceLine>
    <SourceLine></SourceLine>
@@ -1373,5 +1371,16 @@
    <ItemType>Integer</ItemType>
   </ViewProperty>
  </ViewBehavior>
+ <Constant>
+  <ItemName>QUOTE</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>The double quote character.</CodeDescription>
+  <PartID>419168255</PartID>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemType>0</ItemType>
+  <ItemDef>"</ItemDef>
+  <ItemFlags>33</ItemFlags>
+ </Constant>
 </block>
 </RBProject>
