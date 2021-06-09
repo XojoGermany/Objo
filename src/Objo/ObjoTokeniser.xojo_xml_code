@@ -198,8 +198,14 @@
    <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.RCurly))</SourceLine>
    <SourceLine>Return</SourceLine>
    <SourceLine>Case "_"</SourceLine>
+   <SourceLine>// Contiguous underscores are an error.</SourceLine>
+   <SourceLine>If Tokens.Count &gt; 0 And _</SourceLine>
+   <SourceLine>Tokens(Tokens.LastIndex).Type = Objo.TokenTypes.Underscore Then</SourceLine>
+   <SourceLine>Error("Unexpected underscore (`_`).")</SourceLine>
+   <SourceLine>Else</SourceLine>
    <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Underscore))</SourceLine>
    <SourceLine>Return</SourceLine>
+   <SourceLine>End If</SourceLine>
    <SourceLine>Case "|"</SourceLine>
    <SourceLine>Tokens.Add(MakeToken(Objo.TokenTypes.Pipe))</SourceLine>
    <SourceLine>Return</SourceLine>
@@ -293,7 +299,8 @@
    <SourceLine>Return</SourceLine>
    <SourceLine>ElseIf c = "'" Then</SourceLine>
    <SourceLine>// Escaped string literal.</SourceLine>
-   <SourceLine>#Pragma Warning "TODO"</SourceLine>
+   <SourceLine>AddEscapedStringLiteralToken</SourceLine>
+   <SourceLine>Return</SourceLine>
    <SourceLine>End If</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>// ====================================================================</SourceLine>
@@ -321,7 +328,8 @@
    <SourceLine>Sub SkipWhitespace()</SourceLine>
    <SourceLine>/// Advances past meaningless whitespace.</SourceLine>
    <SourceLine>///</SourceLine>
-   <SourceLine>/// Also updates [TokenStart] if needed.</SourceLine>
+   <SourceLine>/// Updates [TokenStart] if needed.</SourceLine>
+   <SourceLine>/// Handles newlines following an underscore token.</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Do</SourceLine>
    <SourceLine>Select Case Peek</SourceLine>
@@ -331,9 +339,6 @@
    <SourceLine>Case " ", &amp;u0009 // Space or horizontal tab.</SourceLine>
    <SourceLine>Call Advance</SourceLine>
    <SourceLine></SourceLine>
-   <SourceLine>Case "'"</SourceLine>
-   <SourceLine>ConsumeComment</SourceLine>
-   <SourceLine></SourceLine>
    <SourceLine>Case "/"</SourceLine>
    <SourceLine>// Could this be the start of a "//" comment?</SourceLine>
    <SourceLine>If PeekNext = "/" Then</SourceLine>
@@ -341,9 +346,20 @@
    <SourceLine>End If</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Case EndOfLine.UNIX</SourceLine>
+   <SourceLine>// Is the last token an underscore? If so, we remove the underscore</SourceLine>
+   <SourceLine>// token and omit adding an EOL token. To the parser, this will</SourceLine>
+   <SourceLine>// appear as though the tokens before the underscore token and those</SourceLine>
+   <SourceLine>// following this newline are on the same line.</SourceLine>
+   <SourceLine>If Tokens.Count &gt; 0 And _ </SourceLine>
+   <SourceLine>Tokens(Tokens.LastIndex).Type = Objo.TokenTypes.Underscore Then</SourceLine>
+   <SourceLine>Call Tokens.Pop</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>LineNumber = LineNumber + 1</SourceLine>
+   <SourceLine>Else</SourceLine>
    <SourceLine>AddToken(MakeToken(TokenTypes.EOL))</SourceLine>
    <SourceLine>Call Advance</SourceLine>
    <SourceLine>LineNumber = LineNumber + 1</SourceLine>
+   <SourceLine>End If</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Else</SourceLine>
    <SourceLine>Exit</SourceLine>
@@ -421,6 +437,7 @@
    <SourceLine>/// Consumes all characters until EOL or EOF.</SourceLine>
    <SourceLine>///</SourceLine>
    <SourceLine>/// Assumes we are at the beginning of a comment.</SourceLine>
+   <SourceLine>/// In Objo, comments begin with `//`.</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>// Comments go to the end of the line so keep advancing</SourceLine>
    <SourceLine>// until we reach a newline or the source code end.</SourceLine>
@@ -1199,7 +1216,8 @@
    <SourceLine></SourceLine>
    <SourceLine>// Quick check for an empty string.</SourceLine>
    <SourceLine>If Current = TokenStart + 1 Then</SourceLine>
-   <SourceLine>Tokens.Add(New ObjoToken(Objo.TokenTypes.StringLiteral, TokenStart, originalLineNumber))</SourceLine>
+   <SourceLine>Tokens.Add(New ObjoToken(Objo.TokenTypes.StringLiteral, TokenStart, _</SourceLine>
+   <SourceLine>originalLineNumber))</SourceLine>
    <SourceLine>Return</SourceLine>
    <SourceLine>End If</SourceLine>
    <SourceLine></SourceLine>
@@ -1214,6 +1232,122 @@
    <SourceLine></SourceLine>
    <SourceLine>Tokens.Add(New ObjoToken(Objo.TokenTypes.StringLiteral, _</SourceLine>
    <SourceLine>TokenStart, originalLineNumber, lexeme))</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Sub</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>AddEscapedStringLiteralToken</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Attempts to add an escaped string literal token.</CodeDescription>
+  <PartID>259317759</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Sub AddEscapedStringLiteralToken()</SourceLine>
+   <SourceLine>/// Attempts to add an escaped string literal token.</SourceLine>
+   <SourceLine>///</SourceLine>
+   <SourceLine>/// Escaped string literals begin and end with a single quote (`'`). </SourceLine>
+   <SourceLine>/// They may contain &gt;= 0 _escape sequences_ which begin with a</SourceLine>
+   <SourceLine>/// backslash (`\`).</SourceLine>
+   <SourceLine>/// This method assumes that the current character being evaluated is </SourceLine>
+   <SourceLine>/// immediately after the opening single quote:</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine>/// 'Hello'</SourceLine>
+   <SourceLine>///  ^</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine>/// Permitted escape sequences:</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine>/// \n  Newline</SourceLine>
+   <SourceLine>/// \t  Horizontal tab</SourceLine>
+   <SourceLine>/// \'  Single quote</SourceLine>
+   <SourceLine>/// \\  Backslash</SourceLine>
+   <SourceLine>/// \u  Unicode codepoint</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine>/// The Unicode codepoint escape sequence is `\u` followed </SourceLine>
+   <SourceLine>/// by 1-8 hex digits.</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Cache the original line number.</SourceLine>
+   <SourceLine>Var originalLineNumber As Integer = LineNumber</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Keep consuming characters until we hit an unescaped `'`.</SourceLine>
+   <SourceLine>Var lexeme As String</SourceLine>
+   <SourceLine>Var c As String</SourceLine>
+   <SourceLine>Var terminated As Boolean = False</SourceLine>
+   <SourceLine>While Not AtEnd</SourceLine>
+   <SourceLine>c = Advance</SourceLine>
+   <SourceLine>If c = "'" Then</SourceLine>
+   <SourceLine>// End of the string.</SourceLine>
+   <SourceLine>terminated = True</SourceLine>
+   <SourceLine>Exit</SourceLine>
+   <SourceLine>ElseIf c = EndOfLine.UNIX Then // A multiline string literal.</SourceLine>
+   <SourceLine>LineNumber = LineNumber + 1</SourceLine>
+   <SourceLine>ElseIf c = "\" Then</SourceLine>
+   <SourceLine>// Start of an escape sequence.</SourceLine>
+   <SourceLine>If Match("n") Then</SourceLine>
+   <SourceLine>// Newline (`\n`).</SourceLine>
+   <SourceLine>lexeme = lexeme + EndOfLine.UNIX</SourceLine>
+   <SourceLine>ElseIf Match("t") Then</SourceLine>
+   <SourceLine>// Horizontal tab (`\t`).</SourceLine>
+   <SourceLine>lexeme = lexeme + &amp;u0009</SourceLine>
+   <SourceLine>ElseIf Match("\") Then</SourceLine>
+   <SourceLine>// Escaped backslash (`\\`).</SourceLine>
+   <SourceLine>ElseIf Match("'") Then</SourceLine>
+   <SourceLine>// Escaped single quote (`'`).</SourceLine>
+   <SourceLine>lexeme = lexeme + "'"</SourceLine>
+   <SourceLine>ElseIf Match("u") Then</SourceLine>
+   <SourceLine>// Unicode codepoint.</SourceLine>
+   <SourceLine>// There must be 1-8 hex digits immediately following this.</SourceLine>
+   <SourceLine>If Not IsHexDigit(Peek) Then</SourceLine>
+   <SourceLine>Error("Expected a hex digit after the `\u` escape sequence.")</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Get the hex digits.</SourceLine>
+   <SourceLine>Var hex As String</SourceLine>
+   <SourceLine>For i As Integer = 1 To 8</SourceLine>
+   <SourceLine>If Not IsHexDigit(Peek) Then</SourceLine>
+   <SourceLine>Exit</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>hex = hex + Advance</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>Next i</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// The next character must be non-alphanumeric.</SourceLine>
+   <SourceLine>If IsAlpha(Peek) Then</SourceLine>
+   <SourceLine>Error("Expected a non-alphanumeric character after a " + _</SourceLine>
+   <SourceLine>"Unicode codepoint escape sequence.")</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Compute the codepoint.</SourceLine>
+   <SourceLine>Var codepoint As Integer = Integer.FromHex(hex)</SourceLine>
+   <SourceLine>Try</SourceLine>
+   <SourceLine>lexeme = lexeme + Text.FromUnicodeCodepoint(codepoint)</SourceLine>
+   <SourceLine>Catch e</SourceLine>
+   <SourceLine>// Invalid codepoint.</SourceLine>
+   <SourceLine>Error("Invalid Unicode codepoint `" + hex + "`.")</SourceLine>
+   <SourceLine>End Try</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Error("Unrecognised escape sequence: `\" + Peek + "`.")</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>lexeme = lexeme + c</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine>Wend</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Make sure the literal was terminated.</SourceLine>
+   <SourceLine>If Not terminated Then</SourceLine>
+   <SourceLine>Error("Unterminated string literal. Expected a closing single quote.")</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Create the token.</SourceLine>
+   <SourceLine>Tokens.Add(New ObjoToken(Objo.TokenTypes.StringLiteral, TokenStart, _</SourceLine>
+   <SourceLine>originalLineNumber, lexeme))</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>End Sub</SourceLine>
   </ItemSource>

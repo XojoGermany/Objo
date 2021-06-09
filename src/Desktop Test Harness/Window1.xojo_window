@@ -30,18 +30,18 @@ End
 #tag WindowCode
 	#tag Event
 		Sub Open()
-		  Const quote = """"
-		  Var source As String = quote + "Hello " + quote + quote + " world" + quote + "100" + _
-		  quote + quote
-		  
 		  Var tokeniser As New ObjoTokeniser
 		  
-		  Var tokens() As ObjoToken = tokeniser.Tokenise(source)
+		  Var tokens() As ObjoToken = tokeniser.Tokenise(TEST1)
 		  #Pragma Unused tokens
 		  
 		  Break
 		End Sub
 	#tag EndEvent
+
+
+	#tag Constant, Name = TEST1, Type = String, Dynamic = False, Default = \"\"Hello\"\n\"\"\"Cool\"\" name\"\n\'Single quote\'\n\'Garry\\\'s MacBook\'\n\'Rocket: \\u0001F680\'\n\'\'", Scope = Private
+	#tag EndConstant
 
 
 #tag EndWindowCode
