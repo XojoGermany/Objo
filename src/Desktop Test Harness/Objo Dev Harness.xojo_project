@@ -5,6 +5,7 @@ OrigIDEVersion=20210101
 Class=App;App.xojo_code;&h000000007F1347FF;&h0000000000000000;false
 Window=Window1;Window1.xojo_window;&h0000000033FFDFFF;&h0000000000000000;false
 MenuBar=MainMenuBar;MainMenuBar.xojo_menu;&h0000000049025FFF;&h0000000000000000;false
+Module=StringKit;../../../StringKit/StringKit.xojo_xml_code;&h000000001D034FFF;&h0000000000000000;false
 BuildSteps=Build Automation;Build Automation.xojo_code;&h0000000041FE07FF;&h0000000000000000;false
 Folder=Objo;Objo;&h0000000039B41FFF;&h0000000000000000;false
 Class=ObjoToken;../Objo/ObjoToken.xojo_xml_code;&h00000000289837FF;&h0000000039B41FFF;false

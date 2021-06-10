@@ -303,6 +303,14 @@
    <SourceLine>Return</SourceLine>
    <SourceLine>End If</SourceLine>
    <SourceLine></SourceLine>
+   <SourceLine>// =================================================================</SourceLine>
+   <SourceLine>// Identifiers, and reserved words (e.g. keywords, booleans, etc).</SourceLine>
+   <SourceLine>// =================================================================</SourceLine>
+   <SourceLine>If StringKit.IsLetter(c) Then</SourceLine>
+   <SourceLine>AddToken(IdentifierOrReservedWord)</SourceLine>
+   <SourceLine>Return</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>// ====================================================================</SourceLine>
    <SourceLine>// Danger zone.</SourceLine>
    <SourceLine>// ====================================================================</SourceLine>
@@ -1357,6 +1365,58 @@
   <IsShared>0</IsShared>
   <ItemParams></ItemParams>
   <ItemResult></ItemResult>
+ </Method>
+ <Method>
+  <ItemName>IdentifierOrReservedWord</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Attempts to consume an identifier or reserved word and return it. May raise an [ObjoTokeniserException].</CodeDescription>
+  <PartID>1689939967</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function IdentifierOrReservedWord() As ObjoToken</SourceLine>
+   <SourceLine>/// Attempts to consume an identifier or reserved word and return it. </SourceLine>
+   <SourceLine>/// May raise an [ObjoTokeniserException].</SourceLine>
+   <SourceLine>///</SourceLine>
+   <SourceLine>/// This method is called from [NextToken] and it assumes we've</SourceLine>
+   <SourceLine>/// already consumed the first character of a potential identifier or </SourceLine>
+   <SourceLine>/// reserved word (i.e. a letter).</SourceLine>
+   <SourceLine>///</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine>/// If age = 80</SourceLine>
+   <SourceLine>///     ^</SourceLine>
+   <SourceLine>/// ```</SourceLine>
+   <SourceLine>/// </SourceLine>
+   <SourceLine>/// Valid Objo identifiers begin with a letter and may contain any number</SourceLine>
+   <SourceLine>/// of alphanumeric </SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Consume all alphanumeric characters and underscores.</SourceLine>
+   <SourceLine>While StringKit.IsLetterDigitOrUnderscore(Peek)</SourceLine>
+   <SourceLine>Call Advance</SourceLine>
+   <SourceLine>Wend</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Compute the lexeme.</SourceLine>
+   <SourceLine>Var lexeme As String = Source.Middle(TokenStart, Current - TokenStart)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>// Determine if this lexeme is a reserved word or an identifier.</SourceLine>
+   <SourceLine>Var type As Objo.TokenTypes = _</SourceLine>
+   <SourceLine>Objo.ReservedWords.Lookup(lexeme, Objo.TokenTypes.Identifier)</SourceLine>
+   <SourceLine>If type = Objo.TokenTypes.Identifier Then</SourceLine>
+   <SourceLine>Return New ObjoToken(type, TokenStart, LineNumber, lexeme)</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>// Keywords and other reserved words (like "true") don't need</SourceLine>
+   <SourceLine>// the lexeme to be stored.</SourceLine>
+   <SourceLine>Return New ObjoToken(type, TokenStart, LineNumber)</SourceLine>
+   <SourceLine>End If</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>33</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams></ItemParams>
+  <ItemResult>ObjoToken</ItemResult>
  </Method>
  <Property>
   <ItemName>Source</ItemName>

@@ -76,6 +76,77 @@
    <SourceLine>End Get</SourceLine>
   </GetAccessor>
  </Property>
+ <Property>
+  <ItemName>ReservedWords</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <CodeDescription>Objo's reserved words and their token type. Key = String, Value = Objo.TokenTypes.</CodeDescription>
+  <PartID>1523861503</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Property ReservedWords As Dictionary</SourceLine>
+   <SourceLine></SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <ItemDeclaration>ReservedWords As Dictionary</ItemDeclaration>
+  <ItemFlags>1</ItemFlags>
+  <IsShared>0</IsShared>
+  <SetAccessor>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Set</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Set</SourceLine>
+  </SetAccessor>
+  <GetAccessor>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Get</SourceLine>
+   <SourceLine>Static d As New Dictionary( _</SourceLine>
+   <SourceLine>"and" : Objo.TokenTypes.KeywordAnd, _</SourceLine>
+   <SourceLine>"break" : Objo.TokenTypes.KeywordBreak, _</SourceLine>
+   <SourceLine>"case" : Objo.TokenTypes.KeywordCase, _</SourceLine>
+   <SourceLine>"class" : Objo.TokenTypes.KeywordClass, _</SourceLine>
+   <SourceLine>"continue" : Objo.TokenTypes.KeywordContinue, _</SourceLine>
+   <SourceLine>"do" : Objo.TokenTypes.KeywordDo,_</SourceLine>
+   <SourceLine>"downto" : Objo.TokenTypes.KeywordDownTo, _</SourceLine>
+   <SourceLine>"each" : Objo.TokenTypes.KeywordEach, _</SourceLine>
+   <SourceLine>"else" : Objo.TokenTypes.KeywordElse, _</SourceLine>
+   <SourceLine>"elseif" : Objo.TokenTypes.KeywordElseIf, _</SourceLine>
+   <SourceLine>"end" : Objo.TokenTypes.KeywordEnd, _</SourceLine>
+   <SourceLine>"exit" : Objo.TokenTypes.KeywordExit, _</SourceLine>
+   <SourceLine>"false" : Objo.TokenTypes.BooleanFalse, _</SourceLine>
+   <SourceLine>"for" : Objo.TokenTypes.KeywordFor, _</SourceLine>
+   <SourceLine>"function" : Objo.TokenTypes.KeywordFunction, _</SourceLine>
+   <SourceLine>"if" : Objo.TokenTypes.KeywordIf, _</SourceLine>
+   <SourceLine>"in" : Objo.TokenTypes.KeywordIn, _</SourceLine>
+   <SourceLine>"is" : Objo.TokenTypes.KeywordIs, _</SourceLine>
+   <SourceLine>"inherits" : Objo.TokenTypes.KeywordInherits, _</SourceLine>
+   <SourceLine>"loop" : Objo.TokenTypes.KeywordLoop, _</SourceLine>
+   <SourceLine>"mod" : Objo.TokenTypes.KeywordMod, _</SourceLine>
+   <SourceLine>"next" : Objo.TokenTypes.KeywordNext, _</SourceLine>
+   <SourceLine>"not" : Objo.TokenTypes.KeywordNot, _</SourceLine>
+   <SourceLine>"nothing" : Objo.TokenTypes.Nothing, _</SourceLine>
+   <SourceLine>"or" : Objo.TokenTypes.KeywordOr, _</SourceLine>
+   <SourceLine>"print" : Objo.TokenTypes.KeywordPrint, _</SourceLine>
+   <SourceLine>"quit" : Objo.TokenTypes.KeywordQuit, _</SourceLine>
+   <SourceLine>"return" : Objo.TokenTypes.KeywordReturn, _</SourceLine>
+   <SourceLine>"select" : Objo.TokenTypes.KeywordSelect, _</SourceLine>
+   <SourceLine>"self" : Objo.TokenTypes.KeywordSelf, _</SourceLine>
+   <SourceLine>"static" : Objo.TokenTypes.KeywordStatic, _</SourceLine>
+   <SourceLine>"super" : Objo.TokenTypes.KeywordSuper, _</SourceLine>
+   <SourceLine>"then" : Objo.TokenTypes.KeywordThen, _</SourceLine>
+   <SourceLine>"to" : Objo.TokenTypes.KeywordTo, _</SourceLine>
+   <SourceLine>"true" : Objo.TokenTypes.BooleanTrue, _</SourceLine>
+   <SourceLine>"until" : Objo.TokenTypes.KeywordUntil, _</SourceLine>
+   <SourceLine>"var" : Objo.TokenTypes.KeywordVar, _</SourceLine>
+   <SourceLine>"wend" : Objo.TokenTypes.KeywordWend, _</SourceLine>
+   <SourceLine>"while" : Objo.TokenTypes.KeywordWhile, _</SourceLine>
+   <SourceLine>"xor" : Objo.TokenTypes.KeywordXor)</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>Return d</SourceLine>
+   <SourceLine></SourceLine>
+   <SourceLine>End Get</SourceLine>
+  </GetAccessor>
+ </Property>
  <ViewBehavior>
   <ViewProperty>
    <ObjName>Name</ObjName>
@@ -162,6 +233,47 @@
    <SourceLine>LessLess</SourceLine>
    <SourceLine>GreaterGreater</SourceLine>
    <SourceLine>StringLiteral</SourceLine>
+   <SourceLine>KeywordAnd</SourceLine>
+   <SourceLine>KeywordBreak</SourceLine>
+   <SourceLine>KeywordCase</SourceLine>
+   <SourceLine>KeywordClass</SourceLine>
+   <SourceLine>KeywordContinue</SourceLine>
+   <SourceLine>KeywordDo</SourceLine>
+   <SourceLine>KeywordDownTo</SourceLine>
+   <SourceLine>KeywordEach</SourceLine>
+   <SourceLine>KeywordElse</SourceLine>
+   <SourceLine>KeywordElseIf</SourceLine>
+   <SourceLine>KeywordEnd</SourceLine>
+   <SourceLine>KeywordExit</SourceLine>
+   <SourceLine>BooleanFalse</SourceLine>
+   <SourceLine>BooleanTrue</SourceLine>
+   <SourceLine>Nothing</SourceLine>
+   <SourceLine>KeywordFor</SourceLine>
+   <SourceLine>KeywordFunction</SourceLine>
+   <SourceLine>KeywordIf</SourceLine>
+   <SourceLine>KeywordIn</SourceLine>
+   <SourceLine>KeywordIs</SourceLine>
+   <SourceLine>KeywordInherits</SourceLine>
+   <SourceLine>KeywordLoop</SourceLine>
+   <SourceLine>KeywordMod</SourceLine>
+   <SourceLine>KeywordNext</SourceLine>
+   <SourceLine>KeywordNot</SourceLine>
+   <SourceLine>KeywordOr</SourceLine>
+   <SourceLine>KeywordPrint</SourceLine>
+   <SourceLine>KeywordQuit</SourceLine>
+   <SourceLine>KeywordReturn</SourceLine>
+   <SourceLine>KeywordSelect</SourceLine>
+   <SourceLine>KeywordSelf</SourceLine>
+   <SourceLine>KeywordStatic</SourceLine>
+   <SourceLine>KeywordSuper</SourceLine>
+   <SourceLine>KeywordThen</SourceLine>
+   <SourceLine>KeywordTo</SourceLine>
+   <SourceLine>KeywordUntil</SourceLine>
+   <SourceLine>KeywordVar</SourceLine>
+   <SourceLine>KeywordWend</SourceLine>
+   <SourceLine>KeywordWhile</SourceLine>
+   <SourceLine>KeywordXor</SourceLine>
+   <SourceLine>Identifier</SourceLine>
   </ItemSource>
  </Enumeration>
 </block>

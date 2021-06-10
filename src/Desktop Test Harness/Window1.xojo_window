@@ -32,7 +32,7 @@ End
 		Sub Open()
 		  Var tokeniser As New ObjoTokeniser
 		  
-		  Var tokens() As ObjoToken = tokeniser.Tokenise(TEST1)
+		  Var tokens() As ObjoToken = tokeniser.Tokenise(TEST2)
 		  #Pragma Unused tokens
 		  
 		  Break
@@ -41,6 +41,9 @@ End
 
 
 	#tag Constant, Name = TEST1, Type = String, Dynamic = False, Default = \"\"Hello\"\n\"\"\"Cool\"\" name\"\n\'Single quote\'\n\'Garry\\\'s MacBook\'\n\'Rocket: \\u0001F680\'\n\'\'", Scope = Private
+	#tag EndConstant
+
+	#tag Constant, Name = TEST2, Type = String, Dynamic = False, Default = \"Var name \x3D \"Garry\"", Scope = Private
 	#tag EndConstant
 
 
