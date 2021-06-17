@@ -28,18 +28,6 @@ End
 #tag EndWindow
 
 #tag WindowCode
-	#tag Event
-		Sub Open()
-		  Var tokeniser As New ObjoTokeniser
-		  
-		  Var tokens() As ObjoToken = tokeniser.Tokenise(TEST2)
-		  #Pragma Unused tokens
-		  
-		  Break
-		End Sub
-	#tag EndEvent
-
-
 	#tag Constant, Name = TEST1, Type = String, Dynamic = False, Default = \"\"Hello\"\n\"\"\"Cool\"\" name\"\n\'Single quote\'\n\'Garry\\\'s MacBook\'\n\'Rocket: \\u0001F680\'\n\'\'", Scope = Private
 	#tag EndConstant
 
