@@ -140,7 +140,7 @@
    <SourceLine>If AddBinaryLiteralToken Then Return</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Case "o"</SourceLine>
-   <SourceLine>// Octal literal (e.g. &amp;h123).</SourceLine>
+   <SourceLine>// Octal literal (e.g. &amp;o123).</SourceLine>
    <SourceLine>If AddOctalLiteralToken Then Return</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>Case "h"</SourceLine>
@@ -573,7 +573,7 @@
    <SourceLine>/// Example:</SourceLine>
    <SourceLine>/// ```</SourceLine>
    <SourceLine>/// &amp;b0011</SourceLine>
-   <SourceLine>/// ^</SourceLine>
+   <SourceLine>///  ^</SourceLine>
    <SourceLine>/// ```</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>// Move past the "b" character.</SourceLine>
@@ -875,7 +875,7 @@
    <SourceLine>/// that the next character is definitely a "h":</SourceLine>
    <SourceLine>/// ```</SourceLine>
    <SourceLine>/// &amp;hFFA1</SourceLine>
-   <SourceLine>/// ^</SourceLine>
+   <SourceLine>///  ^</SourceLine>
    <SourceLine>/// ```</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>// Move past the "h" character.</SourceLine>
