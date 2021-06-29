@@ -99,7 +99,7 @@ Begin Window Window1
       HasHorizontalScrollbar=   False
       HasVerticalScrollbar=   True
       HeadingIndex    =   -1
-      Height          =   263
+      Height          =   247
       Index           =   -2147483648
       InitialParent   =   ""
       InitialValue    =   "Line	Start	Type	Lexeme"
@@ -188,6 +188,41 @@ Begin Window Window1
       Visible         =   True
       Width           =   80
    End
+   Begin Label Info
+      AllowAutoDeactivate=   True
+      Bold            =   False
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
+      Height          =   36
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   False
+      Left            =   20
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   False
+      Multiline       =   True
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   4
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Text            =   "Info"
+      TextAlignment   =   0
+      TextColor       =   &c00000000
+      Tooltip         =   ""
+      Top             =   566
+      Transparent     =   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   728
+   End
 End
 #tag EndWindow
 
@@ -260,9 +295,18 @@ End
 	#tag Event
 		Sub Action()
 		  Tokeniser.Reset
-		  Tokens = Tokeniser.Tokenise(SourceCode.Text)
 		  
-		  DisplayTokens
+		  Try
+		    Tokens = Tokeniser.Tokenise(SourceCode.Text)
+		    DisplayTokens
+		    Info.Text = "Tokenised successfully."
+		  Catch e As ObjoTokeniserException
+		    Info.Text = "[" + e.LineNumber.ToString + ", " + _
+		    e.LineCharacterPosition.ToString + "]: " + e.Message
+		    ListboxTokens.RemoveAllRows
+		  End Try
+		  
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents

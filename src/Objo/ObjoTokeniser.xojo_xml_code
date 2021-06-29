@@ -1131,6 +1131,8 @@
    <SourceLine>Sub Error(message As String)</SourceLine>
    <SourceLine>/// Raises an [ObjoTokeniserException] at the current position.</SourceLine>
    <SourceLine></SourceLine>
+   <SourceLine>#Pragma BreakOnExceptions False</SourceLine>
+   <SourceLine></SourceLine>
    <SourceLine>Var e As New ObjoTokeniserException(message)</SourceLine>
    <SourceLine>e.LineNumber = LineNumber</SourceLine>
    <SourceLine>// -1 as the tokeniser has already moved past the offending character.</SourceLine>
