@@ -12,6 +12,7 @@ Class=ObjoToken;../Objo/ObjoToken.xojo_xml_code;&h00000000289837FF;&h0000000039B
 Module=Objo;../Objo/Objo.xojo_xml_code;&h000000001973C7FF;&h0000000039B41FFF;false
 Class=ObjoTokeniser;../Objo/ObjoTokeniser.xojo_xml_code;&h0000000025D387FF;&h0000000039B41FFF;false
 Class=ObjoTokeniserException;../Objo/ObjoTokeniserException.xojo_xml_code;&h000000004C9847FF;&h0000000039B41FFF;false
+Class=SourceCodeArea;SourceCodeArea.xojo_code;&h000000007DF17FFF;&h0000000000000000;false
 DefaultWindow=Window1
 AppMenuBar=MainMenuBar
 MajorVersion=1

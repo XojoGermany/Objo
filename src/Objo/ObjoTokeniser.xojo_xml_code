@@ -1306,11 +1306,12 @@
    <SourceLine>lexeme = lexeme + &amp;u0009</SourceLine>
    <SourceLine>ElseIf Match("\") Then</SourceLine>
    <SourceLine>// Escaped backslash (`\\`).</SourceLine>
+   <SourceLine>lexeme = lexeme + "\"</SourceLine>
    <SourceLine>ElseIf Match("'") Then</SourceLine>
    <SourceLine>// Escaped single quote (`'`).</SourceLine>
    <SourceLine>lexeme = lexeme + "'"</SourceLine>
    <SourceLine>ElseIf Match("u") Then</SourceLine>
-   <SourceLine>// Unicode codepoint.</SourceLine>
+   <SourceLine>// Unicode codepoint (`\u`).</SourceLine>
    <SourceLine>// There must be 1-8 hex digits immediately following this.</SourceLine>
    <SourceLine>If Not IsHexDigit(Peek) Then</SourceLine>
    <SourceLine>Error("Expected a hex digit after the `\u` escape sequence.")</SourceLine>
@@ -1388,7 +1389,7 @@
    <SourceLine>/// ```</SourceLine>
    <SourceLine>/// </SourceLine>
    <SourceLine>/// Valid Objo identifiers begin with a letter and may contain any number</SourceLine>
-   <SourceLine>/// of alphanumeric </SourceLine>
+   <SourceLine>/// of alphanumeric.</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>// Consume all alphanumeric characters and underscores.</SourceLine>
    <SourceLine>While StringKit.IsLetterDigitOrUnderscore(Peek)</SourceLine>

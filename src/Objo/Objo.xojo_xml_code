@@ -7,6 +7,189 @@
  <ItemFlags>1</ItemFlags>
  <IsInterface>0</IsInterface>
  <Compatibility></Compatibility>
+ <Method>
+  <ItemName>ToString</ItemName>
+  <Compatibility></Compatibility>
+  <Visible>1</Visible>
+  <PartID>1602312191</PartID>
+  <ItemSource>
+   <TextEncoding>134217984</TextEncoding>
+   <SourceLine>Function ToString(Extends type As Objo.TokenTypes) As String</SourceLine>
+   <SourceLine>Select Case type</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Ampersand</SourceLine>
+   <SourceLine>Return "Ampersand"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.BinaryLiteral</SourceLine>
+   <SourceLine>Return "Binary Literal"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.BooleanFalse</SourceLine>
+   <SourceLine>Return "Boolean (False)"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.BooleanTrue</SourceLine>
+   <SourceLine>Return "Boolean (True)"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Caret</SourceLine>
+   <SourceLine>Return "Caret"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Colon</SourceLine>
+   <SourceLine>Return "Colon"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.ColorLiteral</SourceLine>
+   <SourceLine>Return "Color Literal"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Comma</SourceLine>
+   <SourceLine>Return "Comman"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Dot</SourceLine>
+   <SourceLine>Return "Dot"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.EOF</SourceLine>
+   <SourceLine>Return "EOF"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.EOL</SourceLine>
+   <SourceLine>Return "EOL"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Equals</SourceLine>
+   <SourceLine>Return "Equals"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.ForwardSlash</SourceLine>
+   <SourceLine>Return "Forward Slash"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.ForwardSlashEqual</SourceLine>
+   <SourceLine>Return "Forward Slash Equal"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Greater</SourceLine>
+   <SourceLine>Return "Greater"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.GreaterEqual</SourceLine>
+   <SourceLine>Return "Greater Equal"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.GreaterGreater</SourceLine>
+   <SourceLine>Return "Greater Greater"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.HexLiteral</SourceLine>
+   <SourceLine>Return "Hex literal"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Identifier</SourceLine>
+   <SourceLine>Return "Identifier"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordAnd</SourceLine>
+   <SourceLine>Return "And"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordBreak</SourceLine>
+   <SourceLine>Return "Break"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordCase</SourceLine>
+   <SourceLine>Return "Case"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordClass</SourceLine>
+   <SourceLine>Return "Class"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordContinue</SourceLine>
+   <SourceLine>Return "Continue"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordDo</SourceLine>
+   <SourceLine>Return "Do"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordDownTo</SourceLine>
+   <SourceLine>Return "DownTo"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordEach</SourceLine>
+   <SourceLine>Return "Each"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordElse</SourceLine>
+   <SourceLine>Return "Else"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordElseIf</SourceLine>
+   <SourceLine>Return "ElseIf"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordEnd</SourceLine>
+   <SourceLine>Return "End"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordExit</SourceLine>
+   <SourceLine>Return "Exit"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordFor</SourceLine>
+   <SourceLine>Return "For"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordFunction</SourceLine>
+   <SourceLine>Return "Function"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordIf</SourceLine>
+   <SourceLine>Return "If"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordIn</SourceLine>
+   <SourceLine>Return "In"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordInherits</SourceLine>
+   <SourceLine>Return "Inherits"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordIs</SourceLine>
+   <SourceLine>Return "Is"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordLoop</SourceLine>
+   <SourceLine>Return "Loop"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordMod</SourceLine>
+   <SourceLine>Return "Mod"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordNext</SourceLine>
+   <SourceLine>Return "Next"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordNot</SourceLine>
+   <SourceLine>Return "Not"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordOr</SourceLine>
+   <SourceLine>Return "Or"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordPrint</SourceLine>
+   <SourceLine>Return "Print"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordQuit</SourceLine>
+   <SourceLine>Return "Quit"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordReturn</SourceLine>
+   <SourceLine>Return "Return"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordSelect</SourceLine>
+   <SourceLine>Return "Select"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordSelf</SourceLine>
+   <SourceLine>Return "Self"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordStatic</SourceLine>
+   <SourceLine>Return "Static"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordSuper</SourceLine>
+   <SourceLine>Return "Super"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordThen</SourceLine>
+   <SourceLine>Return "Then"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordTo</SourceLine>
+   <SourceLine>Return "To"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordUntil</SourceLine>
+   <SourceLine>Return "Until"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordVar</SourceLine>
+   <SourceLine>Return "Var"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordWend</SourceLine>
+   <SourceLine>Return "Wend"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordWhile</SourceLine>
+   <SourceLine>Return "While"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.KeywordXor</SourceLine>
+   <SourceLine>Return "Xor"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.LCurly</SourceLine>
+   <SourceLine>Return "LCurly"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Less</SourceLine>
+   <SourceLine>Return "Less"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.LessEqual</SourceLine>
+   <SourceLine>Return "Less Equal"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.LessLess</SourceLine>
+   <SourceLine>Return "Less Less"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.LParen</SourceLine>
+   <SourceLine>Return "LParen"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.LSquare</SourceLine>
+   <SourceLine>Return "LSquare"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Minus</SourceLine>
+   <SourceLine>Return "Minus"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.MinusEqual</SourceLine>
+   <SourceLine>Return "Minus Equal"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.NotEqual</SourceLine>
+   <SourceLine>Return "Not Equal"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Nothing</SourceLine>
+   <SourceLine>Return "Nothing"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Number</SourceLine>
+   <SourceLine>Return "Number"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.OctalLiteral</SourceLine>
+   <SourceLine>Return "Octal Literal"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Pipe</SourceLine>
+   <SourceLine>Return "Pipe"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Plus</SourceLine>
+   <SourceLine>Return "Plus"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.PlusEqual</SourceLine>
+   <SourceLine>Return "Plus Equal"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Query</SourceLine>
+   <SourceLine>Return "Query"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.QueryQuery</SourceLine>
+   <SourceLine>Return "Query"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.RCurly</SourceLine>
+   <SourceLine>Return "RCurly"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.RParen</SourceLine>
+   <SourceLine>Return "RParen"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.RSquare</SourceLine>
+   <SourceLine>Return "RSquare"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Star</SourceLine>
+   <SourceLine>Return "Star"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.StarEqual</SourceLine>
+   <SourceLine>Return "Star Equal"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.StringLiteral</SourceLine>
+   <SourceLine>Return "String Literal"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.Underscore</SourceLine>
+   <SourceLine>Return "Underscore"</SourceLine>
+   <SourceLine>Case Objo.TokenTypes.UnicodeLiteral</SourceLine>
+   <SourceLine>Return "Unicode Literal"</SourceLine>
+   <SourceLine>Else</SourceLine>
+   <SourceLine>Raise New InvalidArgumentException("Unknown token type.")</SourceLine>
+   <SourceLine>End Select</SourceLine>
+   <SourceLine>End Function</SourceLine>
+  </ItemSource>
+  <TextEncoding>134217984</TextEncoding>
+  <AliasName></AliasName>
+  <ItemFlags>0</ItemFlags>
+  <IsShared>0</IsShared>
+  <ItemParams>Extends type As Objo.TokenTypes</ItemParams>
+  <ItemResult>String</ItemResult>
+ </Method>
  <Property>
   <ItemName>NonAlpha</ItemName>
   <Compatibility></Compatibility>
@@ -84,7 +267,7 @@
   <PartID>1523861503</PartID>
   <ItemSource>
    <TextEncoding>134217984</TextEncoding>
-   <SourceLine>Property ReservedWords As Dictionary</SourceLine>
+   <SourceLine>ReservedWords As Dictionary</SourceLine>
    <SourceLine></SourceLine>
   </ItemSource>
   <TextEncoding>134217984</TextEncoding>
