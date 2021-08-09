@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<RBProject version="2021r1.1" FormatVersion="2" MinIDEVersion="20070100">
+<RBProject version="2021r2" FormatVersion="2" MinIDEVersion="20070100">
 <block type="Module" ID="1329240063">
  <ObjName>ObjoTokeniser</ObjName>
  <ObjContainerID>968105983</ObjContainerID>
@@ -1391,7 +1391,7 @@
    <SourceLine>/// ```</SourceLine>
    <SourceLine>/// </SourceLine>
    <SourceLine>/// Valid Objo identifiers begin with a letter and may contain any number</SourceLine>
-   <SourceLine>/// of alphanumeric.</SourceLine>
+   <SourceLine>/// of alphanumeric characters.</SourceLine>
    <SourceLine></SourceLine>
    <SourceLine>// Consume all alphanumeric characters and underscores.</SourceLine>
    <SourceLine>While StringKit.IsLetterDigitOrUnderscore(Peek)</SourceLine>
